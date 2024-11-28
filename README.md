@@ -16,7 +16,7 @@
 
 1. 克隆仓库：
 ```bash
-git clone [你的仓库URL]
+git clone https://github.com/whotto/PDF_reflective_translator.git
 cd PDF_translation_workflow
 ```
 
@@ -95,3 +95,9 @@ MIT License
 ## 贡献指南
 
 欢迎提交 Issue 和 Pull Request
+
+## 联系方式
+
+- 博客：[阅读网](https://yuedu.biz)
+- Email：grow8org@gmail.com
+- GitHub：[PDF_reflective_translator](https://github.com/whotto/PDF_reflective_translator)

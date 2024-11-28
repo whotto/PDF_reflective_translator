@@ -1,0 +1,699 @@
+2024-11-28 12:37:50,958 - WARNING - 未找到术语表文件，将使用空术语表
+2024-11-28 12:37:50,959 - ERROR - 处理PDF时出错: [Errno 2] No such file or directory: '老子.pdf'
+2024-11-28 12:37:50,959 - ERROR - 翻译过程中出现错误: [Errno 2] No such file or directory: '老子.pdf'
+2024-11-28 12:38:16,863 - WARNING - 未找到术语表文件，将使用空术语表
+2024-11-28 12:38:16,865 - ERROR - 处理PDF时出错: [Errno 2] No such file or directory: '老子.pdf'
+2024-11-28 12:38:16,865 - ERROR - 翻译过程中出现错误: [Errno 2] No such file or directory: '老子.pdf'
+2024-11-28 12:38:35,116 - WARNING - 未找到术语表文件，将使用空术语表
+2024-11-28 12:38:35,117 - INFO - 成功提取文本，共 1 个内容块
+2024-11-28 12:38:35,117 - INFO - 正在翻译第 1/1 个内容块
+2024-11-28 12:38:35,117 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1
+2024-11-28 12:39:05,717 - WARNING - API调用失败: HTTPSConnectionPool(host='api.gptsapi.net', port=443): Read timed out. (read timeout=30), 尝试下一个端点
+2024-11-28 12:39:09,718 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1
+2024-11-28 12:39:40,047 - WARNING - API调用失败: HTTPSConnectionPool(host='api.gptsapi.net', port=443): Read timed out. (read timeout=30), 尝试下一个端点
+2024-11-28 12:39:44,052 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1
+2024-11-28 12:40:14,402 - WARNING - API调用失败: HTTPSConnectionPool(host='api.gptsapi.net', port=443): Read timed out. (read timeout=30), 尝试下一个端点
+2024-11-28 12:40:18,404 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1
+2024-11-28 12:40:48,741 - WARNING - API调用失败: HTTPSConnectionPool(host='api.gptsapi.net', port=443): Read timed out. (read timeout=30), 尝试下一个端点
+2024-11-28 12:40:56,741 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1
+2024-11-28 12:41:27,069 - WARNING - API调用失败: HTTPSConnectionPool(host='api.gptsapi.net', port=443): Read timed out. (read timeout=30), 尝试下一个端点
+2024-11-28 12:41:27,069 - ERROR - 处理第 1 个内容块时出错: RetryError[<Future at 0x2710a6c70b0 state=finished raised Exception>]
+2024-11-28 12:41:27,069 - ERROR - 翻译过程中出现错误: RetryError[<Future at 0x2710a6c70b0 state=finished raised Exception>]
+2024-11-28 12:45:40,627 - WARNING - 未找到术语表文件，将使用空术语表
+2024-11-28 12:45:40,628 - INFO - 成功提取文本，共 1 个内容块
+2024-11-28 12:45:40,628 - INFO - 正在翻译第 1/1 个内容块
+2024-11-28 12:45:40,629 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 12:46:40,935 - WARNING - API调用超时，等待后重试...
+2024-11-28 12:46:40,935 - INFO - 等待 5 秒后重试...
+2024-11-28 12:46:45,936 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 1)
+2024-11-28 12:47:46,239 - WARNING - API调用超时，等待后重试...
+2024-11-28 12:47:46,240 - INFO - 等待 10 秒后重试...
+2024-11-28 12:47:56,240 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 2)
+2024-11-28 12:48:56,557 - WARNING - API调用超时，等待后重试...
+2024-11-28 12:49:00,559 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 12:49:56,275 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 12:49:57,277 - INFO - 翻译完成！结果已保存到: 老子_英文.md
+2024-11-28 12:53:21,891 - WARNING - 未找到术语表文件，将使用空术语表
+2024-11-28 12:53:21,892 - INFO - 成功提取文本，共 1 个内容块
+2024-11-28 12:53:21,893 - INFO - 正在翻译第 1/1 个内容块
+2024-11-28 12:53:21,893 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 12:54:22,213 - WARNING - API调用超时，等待后重试...
+2024-11-28 12:54:22,213 - INFO - 等待 5 秒后重试...
+2024-11-28 12:54:27,214 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 1)
+2024-11-28 12:55:15,615 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 12:55:16,618 - INFO - 翻译完成！结果已保存到: 老子_英文.md
+2024-11-28 12:56:19,184 - WARNING - 未找到术语表文件，将使用空术语表
+2024-11-28 12:56:19,185 - ERROR - 翻译过程中出现错误: [Errno 2] No such file or directory: '.\\What Is ChatGPT Doing -1-15'
+2024-11-28 12:56:31,345 - WARNING - 未找到术语表文件，将使用空术语表
+2024-11-28 12:56:31,345 - ERROR - 翻译过程中出现错误: [Errno 2] No such file or directory: '.\\What Is ChatGPT Doing -1-15'
+2024-11-28 12:59:06,997 - WARNING - 未找到术语表文件，将使用空术语表
+2024-11-28 12:59:07,021 - INFO - PDF共有 125 页
+2024-11-28 12:59:07,022 - INFO - 已处理第 1/125 页
+2024-11-28 12:59:07,023 - INFO - 已处理第 2/125 页
+2024-11-28 12:59:07,024 - INFO - 已处理第 3/125 页
+2024-11-28 12:59:07,024 - INFO - 已处理第 4/125 页
+2024-11-28 12:59:07,025 - INFO - 已处理第 5/125 页
+2024-11-28 12:59:07,032 - INFO - 已处理第 6/125 页
+2024-11-28 12:59:07,050 - INFO - 已处理第 7/125 页
+2024-11-28 12:59:07,057 - INFO - 已处理第 8/125 页
+2024-11-28 12:59:07,058 - INFO - 已处理第 9/125 页
+2024-11-28 12:59:07,066 - INFO - 已处理第 10/125 页
+2024-11-28 12:59:07,075 - INFO - 已处理第 11/125 页
+2024-11-28 12:59:07,082 - INFO - 已处理第 12/125 页
+2024-11-28 12:59:07,086 - INFO - 已处理第 13/125 页
+2024-11-28 12:59:07,089 - INFO - 已处理第 14/125 页
+2024-11-28 12:59:07,094 - INFO - 已处理第 15/125 页
+2024-11-28 12:59:07,096 - INFO - 已处理第 16/125 页
+2024-11-28 12:59:07,101 - INFO - 已处理第 17/125 页
+2024-11-28 12:59:07,105 - INFO - 已处理第 18/125 页
+2024-11-28 12:59:07,110 - INFO - 已处理第 19/125 页
+2024-11-28 12:59:07,115 - INFO - 已处理第 20/125 页
+2024-11-28 12:59:07,117 - INFO - 已处理第 21/125 页
+2024-11-28 12:59:07,122 - INFO - 已处理第 22/125 页
+2024-11-28 12:59:07,128 - INFO - 已处理第 23/125 页
+2024-11-28 12:59:07,136 - INFO - 已处理第 24/125 页
+2024-11-28 12:59:07,141 - INFO - 已处理第 25/125 页
+2024-11-28 12:59:07,144 - INFO - 已处理第 26/125 页
+2024-11-28 12:59:07,150 - INFO - 已处理第 27/125 页
+2024-11-28 12:59:07,155 - INFO - 已处理第 28/125 页
+2024-11-28 12:59:07,160 - INFO - 已处理第 29/125 页
+2024-11-28 12:59:07,162 - INFO - 已处理第 30/125 页
+2024-11-28 12:59:07,169 - INFO - 已处理第 31/125 页
+2024-11-28 12:59:07,174 - INFO - 已处理第 32/125 页
+2024-11-28 12:59:07,178 - INFO - 已处理第 33/125 页
+2024-11-28 12:59:07,181 - INFO - 已处理第 34/125 页
+2024-11-28 12:59:07,184 - INFO - 已处理第 35/125 页
+2024-11-28 12:59:07,188 - INFO - 已处理第 36/125 页
+2024-11-28 12:59:07,193 - INFO - 已处理第 37/125 页
+2024-11-28 12:59:07,194 - INFO - 已处理第 38/125 页
+2024-11-28 12:59:07,200 - INFO - 已处理第 39/125 页
+2024-11-28 12:59:07,203 - INFO - 已处理第 40/125 页
+2024-11-28 12:59:07,207 - INFO - 已处理第 41/125 页
+2024-11-28 12:59:07,213 - INFO - 已处理第 42/125 页
+2024-11-28 12:59:07,218 - INFO - 已处理第 43/125 页
+2024-11-28 12:59:07,221 - INFO - 已处理第 44/125 页
+2024-11-28 12:59:07,231 - INFO - 已处理第 45/125 页
+2024-11-28 12:59:07,238 - INFO - 已处理第 46/125 页
+2024-11-28 12:59:07,245 - INFO - 已处理第 47/125 页
+2024-11-28 12:59:07,251 - INFO - 已处理第 48/125 页
+2024-11-28 12:59:07,259 - INFO - 已处理第 49/125 页
+2024-11-28 12:59:07,264 - INFO - 已处理第 50/125 页
+2024-11-28 12:59:07,272 - INFO - 已处理第 51/125 页
+2024-11-28 12:59:07,278 - INFO - 已处理第 52/125 页
+2024-11-28 12:59:07,287 - INFO - 已处理第 53/125 页
+2024-11-28 12:59:07,294 - INFO - 已处理第 54/125 页
+2024-11-28 12:59:07,296 - INFO - 已处理第 55/125 页
+2024-11-28 12:59:07,302 - INFO - 已处理第 56/125 页
+2024-11-28 12:59:07,305 - INFO - 已处理第 57/125 页
+2024-11-28 12:59:07,311 - INFO - 已处理第 58/125 页
+2024-11-28 12:59:07,316 - INFO - 已处理第 59/125 页
+2024-11-28 12:59:07,321 - INFO - 已处理第 60/125 页
+2024-11-28 12:59:07,326 - INFO - 已处理第 61/125 页
+2024-11-28 12:59:07,330 - INFO - 已处理第 62/125 页
+2024-11-28 12:59:07,371 - INFO - 已处理第 63/125 页
+2024-11-28 12:59:07,379 - INFO - 已处理第 64/125 页
+2024-11-28 12:59:07,385 - INFO - 已处理第 65/125 页
+2024-11-28 12:59:07,391 - INFO - 已处理第 66/125 页
+2024-11-28 12:59:07,394 - INFO - 已处理第 67/125 页
+2024-11-28 12:59:07,396 - INFO - 已处理第 68/125 页
+2024-11-28 12:59:07,398 - INFO - 已处理第 69/125 页
+2024-11-28 12:59:07,406 - INFO - 已处理第 70/125 页
+2024-11-28 12:59:07,412 - INFO - 已处理第 71/125 页
+2024-11-28 12:59:07,421 - INFO - 已处理第 72/125 页
+2024-11-28 12:59:07,427 - INFO - 已处理第 73/125 页
+2024-11-28 12:59:07,432 - INFO - 已处理第 74/125 页
+2024-11-28 12:59:07,440 - INFO - 已处理第 75/125 页
+2024-11-28 12:59:07,448 - INFO - 已处理第 76/125 页
+2024-11-28 12:59:07,457 - INFO - 已处理第 77/125 页
+2024-11-28 12:59:07,463 - INFO - 已处理第 78/125 页
+2024-11-28 12:59:07,468 - INFO - 已处理第 79/125 页
+2024-11-28 12:59:07,472 - INFO - 已处理第 80/125 页
+2024-11-28 12:59:07,480 - INFO - 已处理第 81/125 页
+2024-11-28 12:59:07,483 - INFO - 已处理第 82/125 页
+2024-11-28 12:59:07,488 - INFO - 已处理第 83/125 页
+2024-11-28 12:59:07,490 - INFO - 已处理第 84/125 页
+2024-11-28 12:59:07,492 - INFO - 已处理第 85/125 页
+2024-11-28 12:59:07,493 - INFO - 已处理第 86/125 页
+2024-11-28 12:59:07,499 - INFO - 已处理第 87/125 页
+2024-11-28 12:59:07,501 - INFO - 已处理第 88/125 页
+2024-11-28 12:59:07,501 - INFO - 已处理第 89/125 页
+2024-11-28 12:59:07,504 - INFO - 已处理第 90/125 页
+2024-11-28 12:59:07,512 - INFO - 已处理第 91/125 页
+2024-11-28 12:59:07,522 - INFO - 已处理第 92/125 页
+2024-11-28 12:59:07,528 - INFO - 已处理第 93/125 页
+2024-11-28 12:59:07,535 - INFO - 已处理第 94/125 页
+2024-11-28 12:59:07,536 - INFO - 已处理第 95/125 页
+2024-11-28 12:59:07,545 - INFO - 已处理第 96/125 页
+2024-11-28 12:59:07,551 - INFO - 已处理第 97/125 页
+2024-11-28 12:59:07,555 - INFO - 已处理第 98/125 页
+2024-11-28 12:59:07,565 - INFO - 已处理第 99/125 页
+2024-11-28 12:59:07,571 - INFO - 已处理第 100/125 页
+2024-11-28 12:59:07,575 - INFO - 已处理第 101/125 页
+2024-11-28 12:59:07,580 - INFO - 已处理第 102/125 页
+2024-11-28 12:59:07,583 - INFO - 已处理第 103/125 页
+2024-11-28 12:59:07,586 - INFO - 已处理第 104/125 页
+2024-11-28 12:59:07,590 - INFO - 已处理第 105/125 页
+2024-11-28 12:59:07,593 - INFO - 已处理第 106/125 页
+2024-11-28 12:59:07,595 - INFO - 已处理第 107/125 页
+2024-11-28 12:59:07,598 - INFO - 已处理第 108/125 页
+2024-11-28 12:59:07,598 - INFO - 已处理第 109/125 页
+2024-11-28 12:59:07,600 - INFO - 已处理第 110/125 页
+2024-11-28 12:59:07,602 - INFO - 已处理第 111/125 页
+2024-11-28 12:59:07,605 - INFO - 已处理第 112/125 页
+2024-11-28 12:59:07,607 - INFO - 已处理第 113/125 页
+2024-11-28 12:59:07,608 - INFO - 已处理第 114/125 页
+2024-11-28 12:59:07,610 - INFO - 已处理第 115/125 页
+2024-11-28 12:59:07,612 - INFO - 已处理第 116/125 页
+2024-11-28 12:59:07,614 - INFO - 已处理第 117/125 页
+2024-11-28 12:59:07,615 - INFO - 已处理第 118/125 页
+2024-11-28 12:59:07,616 - INFO - 已处理第 119/125 页
+2024-11-28 12:59:07,625 - INFO - 已处理第 120/125 页
+2024-11-28 12:59:07,632 - INFO - 已处理第 121/125 页
+2024-11-28 12:59:07,641 - INFO - 已处理第 122/125 页
+2024-11-28 12:59:07,648 - INFO - 已处理第 123/125 页
+2024-11-28 12:59:07,656 - INFO - 已处理第 124/125 页
+2024-11-28 12:59:07,658 - INFO - 已处理第 125/125 页
+2024-11-28 12:59:07,658 - INFO - 成功提取文本，共 174 个内容块
+2024-11-28 12:59:07,658 - INFO - 正在翻译第 1/174 个内容块
+2024-11-28 12:59:07,658 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 12:59:08,658 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 12:59:09,660 - INFO - 正在翻译第 2/174 个内容块
+2024-11-28 12:59:09,660 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 12:59:12,812 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 12:59:13,814 - INFO - 正在翻译第 3/174 个内容块
+2024-11-28 12:59:13,815 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 12:59:14,735 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 12:59:15,738 - INFO - 正在翻译第 4/174 个内容块
+2024-11-28 12:59:15,738 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 12:59:16,713 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 12:59:17,715 - INFO - 正在翻译第 5/174 个内容块
+2024-11-28 12:59:17,715 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 12:59:20,339 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 12:59:21,342 - INFO - 正在翻译第 6/174 个内容块
+2024-11-28 12:59:21,342 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 12:59:30,334 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 12:59:31,336 - INFO - 正在翻译第 7/174 个内容块
+2024-11-28 12:59:31,336 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 12:59:32,481 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 12:59:33,483 - INFO - 正在翻译第 8/174 个内容块
+2024-11-28 12:59:33,484 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 12:59:34,620 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 12:59:35,622 - INFO - 正在翻译第 9/174 个内容块
+2024-11-28 12:59:35,622 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 12:59:36,614 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 12:59:37,616 - INFO - 正在翻译第 10/174 个内容块
+2024-11-28 12:59:37,616 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 12:59:41,715 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 12:59:42,718 - INFO - 正在翻译第 11/174 个内容块
+2024-11-28 12:59:42,718 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 12:59:45,993 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 12:59:46,996 - INFO - 正在翻译第 12/174 个内容块
+2024-11-28 12:59:46,996 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 12:59:50,371 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 12:59:51,373 - INFO - 正在翻译第 13/174 个内容块
+2024-11-28 12:59:51,373 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 12:59:52,441 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 12:59:53,444 - INFO - 正在翻译第 14/174 个内容块
+2024-11-28 12:59:53,444 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 12:59:55,017 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 12:59:56,019 - INFO - 正在翻译第 15/174 个内容块
+2024-11-28 12:59:56,019 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 12:59:57,476 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 12:59:58,479 - INFO - 正在翻译第 16/174 个内容块
+2024-11-28 12:59:58,479 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 12:59:59,469 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:00:00,471 - INFO - 正在翻译第 17/174 个内容块
+2024-11-28 13:00:00,472 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:00:02,989 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:00:03,991 - INFO - 正在翻译第 18/174 个内容块
+2024-11-28 13:00:03,992 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:00:05,288 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:00:06,290 - INFO - 正在翻译第 19/174 个内容块
+2024-11-28 13:00:06,290 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:00:08,075 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:00:09,078 - INFO - 正在翻译第 20/174 个内容块
+2024-11-28 13:00:09,078 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:00:10,095 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:00:11,099 - INFO - 正在翻译第 21/174 个内容块
+2024-11-28 13:00:11,099 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:00:12,066 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:00:13,068 - INFO - 正在翻译第 22/174 个内容块
+2024-11-28 13:00:13,069 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:00:14,461 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:00:15,463 - INFO - 正在翻译第 23/174 个内容块
+2024-11-28 13:00:15,464 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:00:16,694 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:00:17,697 - INFO - 正在翻译第 24/174 个内容块
+2024-11-28 13:00:17,697 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:00:18,897 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:00:19,899 - INFO - 正在翻译第 25/174 个内容块
+2024-11-28 13:00:19,899 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:00:20,852 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:00:21,856 - INFO - 正在翻译第 26/174 个内容块
+2024-11-28 13:00:21,856 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:00:23,281 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:00:24,283 - INFO - 正在翻译第 27/174 个内容块
+2024-11-28 13:00:24,284 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:00:25,387 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:00:26,390 - INFO - 正在翻译第 28/174 个内容块
+2024-11-28 13:00:26,390 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:00:28,391 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:00:29,393 - INFO - 正在翻译第 29/174 个内容块
+2024-11-28 13:00:29,393 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:00:30,329 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:00:31,331 - INFO - 正在翻译第 30/174 个内容块
+2024-11-28 13:00:31,331 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:00:32,793 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:00:33,798 - INFO - 正在翻译第 31/174 个内容块
+2024-11-28 13:00:33,798 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:00:38,131 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:00:39,134 - INFO - 正在翻译第 32/174 个内容块
+2024-11-28 13:00:39,134 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:00:44,332 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:00:45,334 - INFO - 正在翻译第 33/174 个内容块
+2024-11-28 13:00:45,334 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:00:46,835 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:00:47,837 - INFO - 正在翻译第 34/174 个内容块
+2024-11-28 13:00:47,837 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:00:48,745 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:00:49,748 - INFO - 正在翻译第 35/174 个内容块
+2024-11-28 13:00:49,748 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:00:55,192 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:00:56,196 - INFO - 正在翻译第 36/174 个内容块
+2024-11-28 13:00:56,196 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:00:57,629 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:00:58,631 - INFO - 正在翻译第 37/174 个内容块
+2024-11-28 13:00:58,631 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:00:59,778 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:01:00,780 - INFO - 正在翻译第 38/174 个内容块
+2024-11-28 13:01:00,780 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:01:02,681 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:01:03,684 - INFO - 正在翻译第 39/174 个内容块
+2024-11-28 13:01:03,684 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:01:06,708 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:01:07,710 - INFO - 正在翻译第 40/174 个内容块
+2024-11-28 13:01:07,710 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:01:09,035 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:01:10,040 - INFO - 正在翻译第 41/174 个内容块
+2024-11-28 13:01:10,040 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:01:12,844 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:01:13,847 - INFO - 正在翻译第 42/174 个内容块
+2024-11-28 13:01:13,847 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:01:22,068 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:01:23,070 - INFO - 正在翻译第 43/174 个内容块
+2024-11-28 13:01:23,071 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:01:24,786 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:01:25,788 - INFO - 正在翻译第 44/174 个内容块
+2024-11-28 13:01:25,788 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:01:29,810 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:01:30,813 - INFO - 正在翻译第 45/174 个内容块
+2024-11-28 13:01:30,813 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:01:33,198 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:01:34,203 - INFO - 正在翻译第 46/174 个内容块
+2024-11-28 13:01:34,203 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:01:39,297 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:01:40,299 - INFO - 正在翻译第 47/174 个内容块
+2024-11-28 13:01:40,299 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:01:41,314 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:01:42,316 - INFO - 正在翻译第 48/174 个内容块
+2024-11-28 13:01:42,317 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:01:43,623 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:01:44,625 - INFO - 正在翻译第 49/174 个内容块
+2024-11-28 13:01:44,625 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:01:47,521 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:01:48,524 - INFO - 正在翻译第 50/174 个内容块
+2024-11-28 13:01:48,524 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:01:51,745 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:01:52,750 - INFO - 正在翻译第 51/174 个内容块
+2024-11-28 13:01:52,750 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:01:54,700 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:01:55,703 - INFO - 正在翻译第 52/174 个内容块
+2024-11-28 13:01:55,703 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:01:56,765 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:01:57,767 - INFO - 正在翻译第 53/174 个内容块
+2024-11-28 13:01:57,767 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:02:00,653 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:02:01,656 - INFO - 正在翻译第 54/174 个内容块
+2024-11-28 13:02:01,656 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:02:03,384 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:02:04,386 - INFO - 正在翻译第 55/174 个内容块
+2024-11-28 13:02:04,386 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:02:05,573 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:02:06,578 - INFO - 正在翻译第 56/174 个内容块
+2024-11-28 13:02:06,578 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:02:10,016 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:02:11,019 - INFO - 正在翻译第 57/174 个内容块
+2024-11-28 13:02:11,019 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:02:13,112 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:02:14,114 - INFO - 正在翻译第 58/174 个内容块
+2024-11-28 13:02:14,115 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:02:15,272 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:02:16,274 - INFO - 正在翻译第 59/174 个内容块
+2024-11-28 13:02:16,274 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:02:23,329 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:02:24,332 - INFO - 正在翻译第 60/174 个内容块
+2024-11-28 13:02:24,332 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:02:26,335 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:02:27,339 - INFO - 正在翻译第 61/174 个内容块
+2024-11-28 13:02:27,340 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:02:32,290 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:02:33,293 - INFO - 正在翻译第 62/174 个内容块
+2024-11-28 13:02:33,293 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:02:34,352 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:02:35,355 - INFO - 正在翻译第 63/174 个内容块
+2024-11-28 13:02:35,355 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:02:37,860 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:02:38,863 - INFO - 正在翻译第 64/174 个内容块
+2024-11-28 13:02:38,863 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:02:39,878 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:02:40,880 - INFO - 正在翻译第 65/174 个内容块
+2024-11-28 13:02:40,880 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:02:45,586 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:02:46,591 - INFO - 正在翻译第 66/174 个内容块
+2024-11-28 13:02:46,591 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:02:49,467 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:02:50,470 - INFO - 正在翻译第 67/174 个内容块
+2024-11-28 13:02:50,470 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:02:55,104 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:02:56,106 - INFO - 正在翻译第 68/174 个内容块
+2024-11-28 13:02:56,106 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:02:58,808 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:02:59,810 - INFO - 正在翻译第 69/174 个内容块
+2024-11-28 13:02:59,810 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:03:10,470 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:03:11,472 - INFO - 正在翻译第 70/174 个内容块
+2024-11-28 13:03:11,472 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:03:15,181 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:03:16,186 - INFO - 正在翻译第 71/174 个内容块
+2024-11-28 13:03:16,186 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:03:19,167 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:03:20,170 - INFO - 正在翻译第 72/174 个内容块
+2024-11-28 13:03:20,170 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:03:25,420 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:03:26,422 - INFO - 正在翻译第 73/174 个内容块
+2024-11-28 13:03:26,422 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:03:31,856 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:03:32,858 - INFO - 正在翻译第 74/174 个内容块
+2024-11-28 13:03:32,858 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:03:34,176 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:03:35,179 - INFO - 正在翻译第 75/174 个内容块
+2024-11-28 13:03:35,179 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:03:36,318 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:03:37,323 - INFO - 正在翻译第 76/174 个内容块
+2024-11-28 13:03:37,323 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:03:41,012 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:03:42,015 - INFO - 正在翻译第 77/174 个内容块
+2024-11-28 13:03:42,016 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:03:47,545 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:03:48,547 - INFO - 正在翻译第 78/174 个内容块
+2024-11-28 13:03:48,547 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:03:51,503 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:03:52,506 - INFO - 正在翻译第 79/174 个内容块
+2024-11-28 13:03:52,506 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:04:08,739 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:04:09,742 - INFO - 正在翻译第 80/174 个内容块
+2024-11-28 13:04:09,742 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:04:14,930 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:04:15,937 - INFO - 正在翻译第 81/174 个内容块
+2024-11-28 13:04:15,938 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:04:18,875 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:04:19,877 - INFO - 正在翻译第 82/174 个内容块
+2024-11-28 13:04:19,878 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:04:25,336 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:04:26,338 - INFO - 正在翻译第 83/174 个内容块
+2024-11-28 13:04:26,338 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:04:28,439 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:04:29,442 - INFO - 正在翻译第 84/174 个内容块
+2024-11-28 13:04:29,442 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:04:30,478 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:04:31,481 - INFO - 正在翻译第 85/174 个内容块
+2024-11-28 13:04:31,481 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:04:32,720 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:04:33,725 - INFO - 正在翻译第 86/174 个内容块
+2024-11-28 13:04:33,725 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:04:40,639 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:04:41,641 - INFO - 正在翻译第 87/174 个内容块
+2024-11-28 13:04:41,641 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:04:42,656 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:04:43,658 - INFO - 正在翻译第 88/174 个内容块
+2024-11-28 13:04:43,658 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:04:51,965 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:04:52,967 - INFO - 正在翻译第 89/174 个内容块
+2024-11-28 13:04:52,967 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:04:56,722 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:04:57,725 - INFO - 正在翻译第 90/174 个内容块
+2024-11-28 13:04:57,725 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:05:02,854 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:05:03,860 - INFO - 正在翻译第 91/174 个内容块
+2024-11-28 13:05:03,860 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:05:11,226 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:05:12,228 - INFO - 正在翻译第 92/174 个内容块
+2024-11-28 13:05:12,229 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:05:18,450 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:05:19,452 - INFO - 正在翻译第 93/174 个内容块
+2024-11-28 13:05:19,452 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:05:22,914 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:05:23,917 - INFO - 正在翻译第 94/174 个内容块
+2024-11-28 13:05:23,917 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:05:34,643 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:05:35,645 - INFO - 正在翻译第 95/174 个内容块
+2024-11-28 13:05:35,645 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:05:39,511 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:05:40,517 - INFO - 正在翻译第 96/174 个内容块
+2024-11-28 13:05:40,518 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:05:42,262 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:05:43,264 - INFO - 正在翻译第 97/174 个内容块
+2024-11-28 13:05:43,265 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:05:45,882 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:05:46,885 - INFO - 正在翻译第 98/174 个内容块
+2024-11-28 13:05:46,885 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:05:49,395 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:05:50,398 - INFO - 正在翻译第 99/174 个内容块
+2024-11-28 13:05:50,398 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:05:51,410 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:05:52,413 - INFO - 正在翻译第 100/174 个内容块
+2024-11-28 13:05:52,413 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:05:54,216 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:05:55,222 - INFO - 正在翻译第 101/174 个内容块
+2024-11-28 13:05:55,222 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:06:01,991 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:06:02,993 - INFO - 正在翻译第 102/174 个内容块
+2024-11-28 13:06:02,993 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:06:08,780 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:06:09,783 - INFO - 正在翻译第 103/174 个内容块
+2024-11-28 13:06:09,783 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:06:21,249 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:06:22,251 - INFO - 正在翻译第 104/174 个内容块
+2024-11-28 13:06:22,251 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:06:27,780 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:06:28,782 - INFO - 正在翻译第 105/174 个内容块
+2024-11-28 13:06:28,782 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:06:33,129 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:06:34,136 - INFO - 正在翻译第 106/174 个内容块
+2024-11-28 13:06:34,136 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:06:39,329 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:06:40,331 - INFO - 正在翻译第 107/174 个内容块
+2024-11-28 13:06:40,331 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:06:47,415 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:06:48,418 - INFO - 正在翻译第 108/174 个内容块
+2024-11-28 13:06:48,418 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:06:49,348 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:06:50,351 - INFO - 正在翻译第 109/174 个内容块
+2024-11-28 13:06:50,351 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:06:57,206 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:06:58,209 - INFO - 正在翻译第 110/174 个内容块
+2024-11-28 13:06:58,209 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:07:02,152 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:07:03,158 - INFO - 正在翻译第 111/174 个内容块
+2024-11-28 13:07:03,159 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:07:07,444 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:07:08,446 - INFO - 正在翻译第 112/174 个内容块
+2024-11-28 13:07:08,447 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:07:11,630 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:07:12,632 - INFO - 正在翻译第 113/174 个内容块
+2024-11-28 13:07:12,633 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:07:17,338 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:07:18,341 - INFO - 正在翻译第 114/174 个内容块
+2024-11-28 13:07:18,341 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:07:26,080 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:07:27,083 - INFO - 正在翻译第 115/174 个内容块
+2024-11-28 13:07:27,083 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:07:30,238 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:07:31,245 - INFO - 正在翻译第 116/174 个内容块
+2024-11-28 13:07:31,245 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:07:33,076 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:07:34,078 - INFO - 正在翻译第 117/174 个内容块
+2024-11-28 13:07:34,078 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:07:35,182 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:07:36,184 - INFO - 正在翻译第 118/174 个内容块
+2024-11-28 13:07:36,184 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:07:37,739 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:07:38,741 - INFO - 正在翻译第 119/174 个内容块
+2024-11-28 13:07:38,741 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:07:40,210 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:07:41,212 - INFO - 正在翻译第 120/174 个内容块
+2024-11-28 13:07:41,212 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:07:42,626 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:07:43,632 - INFO - 正在翻译第 121/174 个内容块
+2024-11-28 13:07:43,633 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:07:44,835 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:07:45,837 - INFO - 正在翻译第 122/174 个内容块
+2024-11-28 13:07:45,837 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:07:48,956 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:07:49,959 - INFO - 正在翻译第 123/174 个内容块
+2024-11-28 13:07:49,959 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:07:51,527 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:07:52,528 - INFO - 正在翻译第 124/174 个内容块
+2024-11-28 13:07:52,529 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:07:54,689 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:07:55,691 - INFO - 正在翻译第 125/174 个内容块
+2024-11-28 13:07:55,692 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:07:59,017 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:08:00,024 - INFO - 正在翻译第 126/174 个内容块
+2024-11-28 13:08:00,024 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:08:05,924 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:08:06,926 - INFO - 正在翻译第 127/174 个内容块
+2024-11-28 13:08:06,926 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:08:12,182 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:08:13,184 - INFO - 正在翻译第 128/174 个内容块
+2024-11-28 13:08:13,184 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:08:19,355 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:08:20,357 - INFO - 正在翻译第 129/174 个内容块
+2024-11-28 13:08:20,358 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:08:26,586 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:08:27,588 - INFO - 正在翻译第 130/174 个内容块
+2024-11-28 13:08:27,588 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:08:29,081 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:08:30,088 - INFO - 正在翻译第 131/174 个内容块
+2024-11-28 13:08:30,088 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:08:31,304 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:08:32,307 - INFO - 正在翻译第 132/174 个内容块
+2024-11-28 13:08:32,307 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:08:33,490 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:08:34,493 - INFO - 正在翻译第 133/174 个内容块
+2024-11-28 13:08:34,493 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:08:39,197 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:08:40,199 - INFO - 正在翻译第 134/174 个内容块
+2024-11-28 13:08:40,199 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:08:46,832 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:08:47,835 - INFO - 正在翻译第 135/174 个内容块
+2024-11-28 13:08:47,835 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:08:50,292 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:08:51,299 - INFO - 正在翻译第 136/174 个内容块
+2024-11-28 13:08:51,300 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:08:53,341 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:08:54,343 - INFO - 正在翻译第 137/174 个内容块
+2024-11-28 13:08:54,343 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:08:58,853 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:08:59,856 - INFO - 正在翻译第 138/174 个内容块
+2024-11-28 13:08:59,856 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:09:02,881 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:09:03,883 - INFO - 正在翻译第 139/174 个内容块
+2024-11-28 13:09:03,884 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:09:06,412 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:09:07,416 - INFO - 正在翻译第 140/174 个内容块
+2024-11-28 13:09:07,416 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:09:08,520 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:09:09,526 - INFO - 正在翻译第 141/174 个内容块
+2024-11-28 13:09:09,526 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:09:11,568 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:09:12,571 - INFO - 正在翻译第 142/174 个内容块
+2024-11-28 13:09:12,571 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:09:13,603 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:09:14,606 - INFO - 正在翻译第 143/174 个内容块
+2024-11-28 13:09:14,607 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:09:17,351 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:09:18,353 - INFO - 正在翻译第 144/174 个内容块
+2024-11-28 13:09:18,353 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:09:19,513 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:09:20,516 - INFO - 正在翻译第 145/174 个内容块
+2024-11-28 13:09:20,516 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:09:22,361 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:09:23,368 - INFO - 正在翻译第 146/174 个内容块
+2024-11-28 13:09:23,368 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:09:26,684 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:09:27,687 - INFO - 正在翻译第 147/174 个内容块
+2024-11-28 13:09:27,687 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:09:28,796 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:09:29,798 - INFO - 正在翻译第 148/174 个内容块
+2024-11-28 13:09:29,799 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:09:31,435 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:09:32,437 - INFO - 正在翻译第 149/174 个内容块
+2024-11-28 13:09:32,438 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:09:33,886 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:09:34,888 - INFO - 正在翻译第 150/174 个内容块
+2024-11-28 13:09:34,888 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:09:36,109 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:09:37,117 - INFO - 正在翻译第 151/174 个内容块
+2024-11-28 13:09:37,117 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:09:38,185 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:09:39,187 - INFO - 正在翻译第 152/174 个内容块
+2024-11-28 13:09:39,188 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:09:40,841 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:09:41,843 - INFO - 正在翻译第 153/174 个内容块
+2024-11-28 13:09:41,844 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:09:42,710 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:09:43,712 - INFO - 正在翻译第 154/174 个内容块
+2024-11-28 13:09:43,712 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:09:45,071 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:09:46,073 - INFO - 正在翻译第 155/174 个内容块
+2024-11-28 13:09:46,073 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:09:48,750 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:09:49,757 - INFO - 正在翻译第 156/174 个内容块
+2024-11-28 13:09:49,758 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:09:51,096 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:09:52,097 - INFO - 正在翻译第 157/174 个内容块
+2024-11-28 13:09:52,097 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:09:53,770 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:09:54,772 - INFO - 正在翻译第 158/174 个内容块
+2024-11-28 13:09:54,772 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:09:56,017 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:09:57,020 - INFO - 正在翻译第 159/174 个内容块
+2024-11-28 13:09:57,020 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:09:58,108 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:09:59,111 - INFO - 正在翻译第 160/174 个内容块
+2024-11-28 13:09:59,111 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:10:00,129 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:10:01,137 - INFO - 正在翻译第 161/174 个内容块
+2024-11-28 13:10:01,137 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:10:02,378 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:10:03,381 - INFO - 正在翻译第 162/174 个内容块
+2024-11-28 13:10:03,381 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:10:04,790 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:10:05,793 - INFO - 正在翻译第 163/174 个内容块
+2024-11-28 13:10:05,793 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:10:07,258 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:10:08,260 - INFO - 正在翻译第 164/174 个内容块
+2024-11-28 13:10:08,260 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:10:09,306 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:10:10,308 - INFO - 正在翻译第 165/174 个内容块
+2024-11-28 13:10:10,309 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:10:11,464 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:10:12,472 - INFO - 正在翻译第 166/174 个内容块
+2024-11-28 13:10:12,472 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:10:14,304 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:10:15,307 - INFO - 正在翻译第 167/174 个内容块
+2024-11-28 13:10:15,307 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:10:16,475 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:10:17,477 - INFO - 正在翻译第 168/174 个内容块
+2024-11-28 13:10:17,477 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:10:18,715 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:10:19,718 - INFO - 正在翻译第 169/174 个内容块
+2024-11-28 13:10:19,718 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:10:25,852 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:10:26,854 - INFO - 正在翻译第 170/174 个内容块
+2024-11-28 13:10:26,855 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:10:32,948 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:10:33,956 - INFO - 正在翻译第 171/174 个内容块
+2024-11-28 13:10:33,956 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:10:40,077 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:10:41,080 - INFO - 正在翻译第 172/174 个内容块
+2024-11-28 13:10:41,080 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:10:45,980 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:10:46,982 - INFO - 正在翻译第 173/174 个内容块
+2024-11-28 13:10:46,982 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:10:49,765 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:10:50,768 - INFO - 正在翻译第 174/174 个内容块
+2024-11-28 13:10:50,768 - INFO - 尝试使用API端点: https://api.gptsapi.net/v1 (重试次数: 0)
+2024-11-28 13:10:51,987 - INFO - HTTP Request: POST https://api.gptsapi.net/v1/chat/completions 200
+2024-11-28 13:10:52,990 - INFO - 翻译完成！结果已保存到: What Is chatgpt doing_中文.pdf.md

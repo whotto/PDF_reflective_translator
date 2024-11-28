@@ -1,22 +1,23 @@
-# PDF Translation Workflow
+# Reflective Translator
 
-一个强大的PDF文档翻译工具，支持将PDF文档从一种语言翻译成另一种语言，保持原文格式并生成高质量的译文。
+一个智能的 PDF 文档翻译工具，支持多语言互译，具有高质量的翻译输出和智能的文档结构保持能力。
 
 ## 特性
 
-- 智能PDF文本提取，保持原文格式和结构
-- 专业的翻译质量，支持学术和技术文献
-- 保留数学公式、代码片段等专业内容
-- 自动识别和保护专有名词
-- 支持翻译进度保存和恢复
-- 灵活的配置选项
+- 支持多种语言互译（中文、英文、日文、韩文、法文等13种语言）
+- 默认支持英文到中文的翻译（无需额外参数）
+- 智能保持文档格式和结构
+- 支持数学公式、代码片段的原样保留
+- 自动分块处理长文本
+- 具有翻译进度保存和恢复功能
+- 支持多种文档格式（PDF、Markdown、TXT、RST）
 
 ## 安装
 
 1. 克隆仓库：
 ```bash
-git clone [repository-url]
-cd pdf-translation-workflow
+git clone [你的仓库URL]
+cd PDF_translation_workflow
 ```
 
 2. 安装依赖：
@@ -25,82 +26,72 @@ pip install -r requirements.txt
 ```
 
 3. 配置环境变量：
-创建 `.env` 文件并添加你的API密钥：
+   - 复制 `.env.example` 为 `.env`
+   - 在 `.env` 文件中设置你的 API key：
 ```
-OPENAI_API_KEY=your-api-key-here
+OPENAI_API_KEY=你的API密钥
 ```
 
 ## 使用方法
 
-基本用法：
+### 基本用法（英文到中文）
 ```bash
-python reflective_translator.py "your-pdf-file.pdf"
+python reflective_translator.py "你的PDF文件.pdf"
 ```
 
-### 命令行参数
-
-- `pdf_path`: PDF文件路径（必需）
-- `--model`: 使用的模型名称（默认：gpt-4o-mini）
-- `--cost_limit`: 成本上限（美元）（默认：10.0）
-
-### 示例
-
-翻译PDF文档：
+### 指定语言方向
 ```bash
-python reflective_translator.py "document.pdf"
+python reflective_translator.py "你的PDF文件.pdf" --source 中文 --target 英文
 ```
 
-## 项目结构
-
-```
-.
-├── .env                    # 环境变量配置
-├── README.md              # 项目文档
-├── reflective_translator.py # 主程序
-├── requirements.txt       # 项目依赖
-├── logs/                 # 日志目录
-└── translation_progress/ # 翻译进度保存目录
+### 其他参数
+```bash
+python reflective_translator.py "你的PDF文件.pdf" --model gpt-4o-mini --cost_limit 10.0
 ```
 
-## 配置选项
+### 支持的语言
+- 中文
+- 英文
+- 日文
+- 韩文
+- 法文
+- 德文
+- 西班牙文
+- 俄文
+- 阿拉伯文
+- 葡萄牙文
+- 意大利文
+- 越南文
+- 泰文
 
-- 模型配置：
-  * 模型名称：gpt-4o-mini（默认）
-  * 温度参数：0.7
-  * 最大令牌数：16000
+## 配置说明
 
-- 翻译设置：
-  * 源语言：英文（默认）
-  * 目标语言：中文（默认）
-  * 成本上限：$10.0（默认）
-
-## 输出格式
-
-翻译结果将保存为Markdown格式，包含：
-- 保持原文的标题层级
-- 保留数学公式
-- 保持图片引用
-- 清晰的段落结构
+- `model`: 使用的模型，默认为 'gpt-4o-mini'
+- `cost_limit`: 成本上限（美元），默认为 10.0
+- `source`: 源语言，默认为 '英文'
+- `target`: 目标语言，默认为 '中文'
 
 ## 注意事项
 
-1. 确保API密钥配置正确
-2. 大文件翻译可能需要较长时间
-3. 翻译过程中可以随时中断，进度会自动保存
-4. 建议定期检查成本使用情况
+1. 对于文件名包含空格的PDF，请使用引号：
+```bash
+python reflective_translator.py "What Is ChatGPT Doing.pdf"
+```
 
-## 依赖项
+2. 翻译结果会保存在与源文件相同目录下，格式为 Markdown
 
-- PyPDF2：PDF解析
-- openai：API调用
-- python-dotenv：环境配置
-- requests：HTTP请求
-- tiktoken：Token计数
+3. 翻译进度会自动保存，意外中断后可以继续之前的翻译
+
+## 开发说明
+
+- 使用 Python 3.8 或更高版本
+- 主要依赖：PyPDF2、openai、python-dotenv
+- 代码遵循 PEP 8 规范
 
 ## 许可证
 
-[选择合适的许可证]
+MIT License
 
-## 贡献
+## 贡献指南
 
-欢迎提交问题和改进建议！
+欢迎提交 Issue 和 Pull Request

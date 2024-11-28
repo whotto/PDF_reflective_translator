@@ -164,10 +164,12 @@ class ReflectiveTranslator:
             str: API响应的文本内容
         """
         last_error = None
+        max_retries = 3
         
-        for api_url in self.api_urls:
+        for retry in range(max_retries):
             try:
-                logging.info(f"尝试使用API端点: {api_url}")
+                api_url = self.api_urls[0]  # 使用配置的API端点
+                logging.info(f"尝试使用API端点: {api_url} (重试次数: {retry})")
                 
                 headers = {
                     "Authorization": f"Bearer {self.api_key}",
@@ -192,7 +194,7 @@ class ReflectiveTranslator:
                     api_url + "/chat/completions",
                     headers=headers,
                     json=data,
-                    timeout=30
+                    timeout=60  # 增加超时时间到60秒
                 )
                 
                 logging.info(f"HTTP Request: {response.request.method} {response.request.url} {response.status_code}")
@@ -209,12 +211,20 @@ class ReflectiveTranslator:
                 else:
                     raise ValueError(f"API请求失败，状态码: {response.status_code}, 响应: {response.text}")
                     
+            except requests.Timeout:
+                last_error = "请求超时"
+                logging.warning(f"API调用超时，等待后重试...")
             except Exception as e:
-                last_error = e
-                logging.warning(f"API调用失败: {str(e)}, 尝试下一个端点")
-                continue
+                last_error = str(e)
+                logging.warning(f"API调用失败: {str(e)}")
+            
+            # 如果不是最后一次重试，则等待后继续
+            if retry < max_retries - 1:
+                wait_time = (retry + 1) * 5  # 递增等待时间：5秒、10秒、15秒
+                logging.info(f"等待 {wait_time} 秒后重试...")
+                time.sleep(wait_time)
         
-        raise Exception(f"所有API端点都调用失败。最后的错误: {str(last_error)}")
+        raise Exception(f"API调用失败（重试{max_retries}次）。最后的错误: {last_error}")
 
     def _initial_translation(self, text: str, source_lang: str, target_lang: str) -> str:
         """初始翻译，保留专有名词
@@ -408,11 +418,13 @@ class ReflectiveTranslator:
         segments = []
         current_segment = []
         current_length = 0
-        max_length = self.max_tokens_per_chunk // 2  # 预留空间给翻译结果
+        
+        # 中文到英文翻译时，预留更多空间（因为英文通常比中文长）
+        max_length = self.max_tokens_per_chunk // 3  # 预留2/3的空间给翻译结果
         
         for paragraph in paragraphs:
-            # 估算段落长度（中文字符计1，其他计0.5）
-            para_length = sum(1 if '\u4e00' <= c <= '\u9fff' else 0.5 for c in paragraph)
+            # 估算段落长度（中文字符计1.5，考虑到英文翻译可能更长）
+            para_length = sum(1.5 if '\u4e00' <= c <= '\u9fff' else 0.5 for c in paragraph)
             
             if current_length + para_length > max_length and current_segment:
                 # 当前段落加入会超出限制，先保存当前片段
@@ -789,6 +801,8 @@ def main():
     parser.add_argument('pdf_path', help='PDF文件路径')
     parser.add_argument('--model', default='gpt-4o-mini', help='使用的模型名称')
     parser.add_argument('--cost_limit', type=float, default=10.0, help='成本上限（美元）')
+    parser.add_argument('--source', default='英文', choices=['中文', '英文', '日文', '韩文', '法文', '德文', '西班牙文', '俄文', '阿拉伯文', '葡萄牙文', '意大利文', '越南文', '泰文'], help='源语言')
+    parser.add_argument('--target', default='中文', choices=['中文', '英文', '日文', '韩文', '法文', '德文', '西班牙文', '俄文', '阿拉伯文', '葡萄牙文', '意大利文', '越南文', '泰文'], help='目标语言')
     args = parser.parse_args()
     
     try:
@@ -810,13 +824,15 @@ def main():
         
         # 开始翻译
         print(f"\n开始翻译：{args.pdf_path}")
+        print(f"源语言：{args.source}")
+        print(f"目标语言：{args.target}")
         print(f"使用模型：{args.model}")
         print(f"成本上限：${args.cost_limit}\n")
         
         translator.translate_file(
             file_path=args.pdf_path,
-            source_lang="英文",
-            target_lang="中文"
+            source_lang=args.source,
+            target_lang=args.target
         )
         
         print("\n翻译完成！输出文件保存在同目录下。")

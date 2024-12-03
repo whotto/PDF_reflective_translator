@@ -1,0 +1,376 @@
+technical_terms:
+  # 编程相关
+  API: API
+  SDK: SDK
+  GUI: GUI
+  CLI: CLI
+  UI: UI
+  UX: UX
+  IDE: IDE
+  CPU: CPU
+  GPU: GPU
+  RAM: RAM
+  HTTP: HTTP
+  HTTPS: HTTPS
+  JSON: JSON
+  XML: XML
+  HTML: HTML
+  CSS: CSS
+  URL: URL
+  SQL: SQL
+  NoSQL: NoSQL
+  git: git
+  GitHub: GitHub
+  Docker: Docker
+  Kubernetes: Kubernetes
+  DevOps: DevOps
+  CI/CD: CI/CD
+  AI: AI
+  ML: ML
+  DL: DL
+  NLP: NLP
+  CNN: CNN
+  RNN: RNN
+  LSTM: LSTM
+
+  # 学术相关
+  et al.: et al.
+  i.e.: i.e.
+  e.g.: e.g.
+  etc.: etc.
+  vs.: vs.
+  PhD: PhD
+  MSc: MSc
+  BSc: BSc
+  Fig.: Fig.
+  Tab.: Tab.
+  Eq.: Eq.
+  Ref.: Ref.
+  Vol.: Vol.
+  No.: No.
+
+  # 文件格式
+  PDF: PDF
+  DOC: DOC
+  DOCX: DOCX
+  XLS: XLS
+  XLSX: XLSX
+  PPT: PPTX
+  TXT: TXT
+  CSV: CSV
+  ZIP: ZIP
+  RAR: RAR
+
+  # 单位
+  KB: KB
+  MB: MB
+  GB: GB
+  TB: TB
+  Hz: Hz
+  MHz: MHz
+  GHz: GHz
+  ms: ms
+  fps: fps
+  dpi: dpi
+
+  # AI/ML相关术语
+  Transformer: Transformer
+  BERT: BERT
+  GPT: GPT
+  LLM: LLM
+  Fine-tuning: Fine-tuning
+  Pre-training: Pre-training
+  Prompt: Prompt
+  Token: Token
+  Tokenization: Tokenization
+  Embedding: Embedding
+  Attention: Attention
+  Self-attention: Self-attention
+  Encoder: Encoder
+  Decoder: Decoder
+  Inference: Inference
+  Training: Training
+  Validation: Validation
+  Overfitting: Overfitting
+  Underfitting: Underfitting
+  Batch: Batch
+  Epoch: Epoch
+  Gradient: Gradient
+  Backpropagation: Backpropagation
+  Loss function: Loss function
+  Activation function: Activation function
+  Optimizer: Optimizer
+  SGD: SGD
+  Adam: Adam
+  Dropout: Dropout
+  Batch normalization: Batch normalization
+  Layer normalization: Layer normalization
+  Cross-validation: Cross-validation
+  Hyperparameter: Hyperparameter
+  Feature extraction: Feature extraction
+  Transfer learning: Transfer learning
+  Zero-shot learning: Zero-shot learning
+  Few-shot learning: Few-shot learning
+  One-shot learning: One-shot learning
+  Reinforcement learning: Reinforcement learning
+  Supervised learning: Supervised learning
+  Unsupervised learning: Unsupervised learning
+  Semi-supervised learning: Semi-supervised learning
+  Classification: Classification
+  Regression: Regression
+  Clustering: Clustering
+  Dimensionality reduction: Dimensionality reduction
+  PCA: PCA
+  t-SNE: t-SNE
+  UMAP: UMAP
+  ROC: ROC
+  AUC: AUC
+  Precision: Precision
+  Recall: Recall
+  F1-score: F1-score
+  Accuracy: Accuracy
+
+  # 计算机科学基础
+  Algorithm: Algorithm
+  Data structure: Data structure
+  Array: Array
+  List: List
+  Stack: Stack
+  Queue: Queue
+  Tree: Tree
+  Graph: Graph
+  Hash table: Hash table
+  Binary search: Binary search
+  Sorting: Sorting
+  Recursion: Recursion
+  Dynamic programming: Dynamic programming
+  Greedy algorithm: Greedy algorithm
+  Time complexity: Time complexity
+  Space complexity: Space complexity
+  Big O notation: Big O notation
+  Parallel computing: Parallel computing
+  Distributed computing: Distributed computing
+  Concurrency: Concurrency
+  Thread: Thread
+  Process: Process
+  Synchronization: Synchronization
+  Deadlock: Deadlock
+  Race condition: Race condition
+  Memory management: Memory management
+  Garbage collection: Garbage collection
+  Cache: Cache
+  Buffer: Buffer
+  Pipeline: Pipeline
+
+  # 软件工程
+  Design pattern: Design pattern
+  MVC: MVC
+  MVP: MVP
+  MVVM: MVVM
+  OOP: OOP
+  Inheritance: Inheritance
+  Polymorphism: Polymorphism
+  Encapsulation: Encapsulation
+  Interface: Interface
+  Abstract class: Abstract class
+  Dependency injection: Dependency injection
+  Middleware: Middleware
+  Framework: Framework
+  Library: Library
+  API Gateway: API Gateway
+  Load balancer: Load balancer
+  Service mesh: Service mesh
+  Serverless: Serverless
+  Container: Container
+  Virtual machine: Virtual machine
+  Hypervisor: Hypervisor
+
+  # 网络和安全
+  TCP/IP: TCP/IP
+  DNS: DNS
+  DHCP: DHCP
+  VPN: VPN
+  SSL/TLS: SSL/TLS
+  SSH: SSH
+  FTP: FTP
+  SMTP: SMTP
+  REST: REST
+  GraphQL: GraphQL
+  gRPC: gRPC
+  WebSocket: WebSocket
+  OAuth: OAuth
+  JWT: JWT
+  CORS: CORS
+  XSS: XSS
+  CSRF: CSRF
+  SQL injection: SQL injection
+  Firewall: Firewall
+  Proxy: Proxy
+
+  # 云计算和DevOps
+  AWS: AWS
+  Azure: Azure
+  GCP: GCP
+  IaaS: IaaS
+  PaaS: PaaS
+  SaaS: SaaS
+  Terraform: Terraform
+  Ansible: Ansible
+  Jenkins: Jenkins
+  GitLab: GitLab
+  Travis CI: Travis CI
+  CircleCI: CircleCI
+  Prometheus: Prometheus
+  Grafana: Grafana
+  ELK Stack: ELK Stack
+  Elasticsearch: Elasticsearch
+  Logstash: Logstash
+  Kibana: Kibana
+
+  # 数据库
+  RDBMS: RDBMS
+  MySQL: MySQL
+  PostgreSQL: PostgreSQL
+  MongoDB: MongoDB
+  Redis: Redis
+  Cassandra: Cassandra
+  Neo4j: Neo4j
+  ElasticSearch: ElasticSearch
+  Index: Index
+  Query: Query
+  Transaction: Transaction
+  ACID: ACID
+  CAP theorem: CAP theorem
+  Sharding: Sharding
+  Replication: Replication
+
+  # 前端技术
+  JavaScript: JavaScript
+  TypeScript: TypeScript
+  React: React
+  Vue: Vue
+  Angular: Angular
+  Node.js: Node.js
+  Webpack: Webpack
+  Babel: Babel
+  ESLint: ESLint
+  npm: npm
+  yarn: yarn
+  PWA: PWA
+  SPA: SPA
+  SSR: SSR
+
+  # 移动开发
+  Swift: Swift
+  Kotlin: Kotlin
+  Flutter: Flutter
+  React Native: React Native
+  Xamarin: Xamarin
+  APK: APK
+  IPA: IPA
+
+  # 新兴技术
+  Web3: Web3
+  NFT: NFT
+  Smart contract: Smart contract
+  Metaverse: Metaverse
+  AR: AR
+  VR: VR
+  MR: MR
+  XR: XR
+  5G: 5G
+  6G: 6G
+  Quantum computing: Quantum computing
+  Edge computing: Edge computing
+  Fog computing: Fog computing
+
+common_phrases:
+  # 常见短语
+  open source: open source
+  source code: source code
+  machine learning: machine learning
+  deep learning: deep learning
+  artificial intelligence: artificial intelligence
+  neural network: neural network
+  big data: big data
+  cloud computing: cloud computing
+  data science: data science
+  internet of things: internet of things
+  IoT: IoT
+  blockchain: blockchain
+  web service: web service
+  microservice: microservice
+  database: database
+  front-end: front-end
+  back-end: back-end
+  full-stack: full-stack
+  real-time: real-time
+  high-performance: high-performance
+  cross-platform: cross-platform
+  user interface: user interface
+  user experience: user experience
+  version control: version control
+  code review: code review
+  unit test: unit test
+  integration test: integration test
+  regression test: regression test
+  bug fix: bug fix
+  debug: debug
+  refactor: refactor
+  optimize: optimize
+  implement: implement
+  deploy: deploy
+  monitor: monitor
+  maintain: maintain
+  scale: scale
+  backup: backup
+  restore: restore
+  upgrade: upgrade
+  downgrade: downgrade
+  install: install
+  uninstall: uninstall
+  configure: configure
+  customize: customize
+
+organizations:
+  # 组织机构
+  IEEE: IEEE
+  ACM: ACM
+  ISO: ISO
+  W3C: W3C
+  IETF: IETF
+  MIT: MIT
+  Stanford: Stanford
+  Berkeley: Berkeley
+  Google: Google
+  Microsoft: Microsoft
+  Apple: Apple
+  Amazon: Amazon
+  Facebook: Facebook
+  IBM: IBM
+  Intel: Intel
+  NVIDIA: NVIDIA
+  AMD: AMD
+
+products:
+  # 产品名称
+  Windows: Windows
+  Linux: Linux
+  macOS: macOS
+  Android: Android
+  iOS: iOS
+  Chrome: Chrome
+  Firefox: Firefox
+  Safari: Safari
+  Edge: Edge
+  Office: Office
+  Excel: Excel
+  Word: Word
+  PowerPoint: PowerPoint
+  Outlook: Outlook
+  Teams: Teams
+  Slack: Slack
+  Zoom: Zoom
+  Skype: Skype
+  WhatsApp: WhatsApp
+  WeChat: WeChat

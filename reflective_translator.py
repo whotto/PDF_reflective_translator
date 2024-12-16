@@ -18,24 +18,14 @@ import requests
 import tqdm
 import random
 
-# 配置日志
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler('translation.log', encoding='utf-8'),
-        logging.StreamHandler()
-    ]
-)
-
 class ReflectiveTranslator:
     # 模型配置
     MODEL_CONFIGS = {
         "gpt-4o-mini": {
-            "max_tokens": 128000,  # 128K 上下文窗口
+            "max_tokens": 16384,  # 16K 上下文窗口
             "cost_per_1k_tokens": 0.01,  # 示例成本
-            "recommended_chunk_size": 100000,  # 建议的分块大小
-            "max_output_tokens": 20000,  # 最大输出token数
+            "recommended_chunk_size": 8000,  # 建议的分块大小
+            "max_output_tokens": 8000,  # 最大输出token数
         }
     }
 
@@ -283,16 +273,29 @@ class ReflectiveTranslator:
         self.logger = logging.getLogger(__name__)
         self.logger.setLevel(logging.INFO)
         
+        # 清除现有的处理器，防止重复
+        if self.logger.hasHandlers():
+            self.logger.handlers.clear()
+        
         # 创建控制台处理器
         console_handler = logging.StreamHandler()
         console_handler.setLevel(logging.INFO)
         
+        # 创建文件处理器
+        file_handler = logging.FileHandler('translation.log', encoding='utf-8')
+        file_handler.setLevel(logging.INFO)
+        
         # 设置日志格式
         formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
         console_handler.setFormatter(formatter)
+        file_handler.setFormatter(formatter)
         
         # 添加处理器到日志记录器
         self.logger.addHandler(console_handler)
+        self.logger.addHandler(file_handler)
+        
+        # 防止日志传播到根记录器
+        self.logger.propagate = False
 
     def _load_glossary(self) -> Dict:
         """加载术语表"""
@@ -350,38 +353,68 @@ class ReflectiveTranslator:
         Raises:
             Exception: API调用失败时抛出异常
         """
-        try:
-            self.logger.info("正在发送API请求...")
-            
-            messages = [
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_prompt}
-            ]
-            
-            # 使用openai库调用API
-            response = openai.ChatCompletion.create(
-                model=self.model_name,
-                messages=messages,
-                temperature=self.temperature,
-                request_timeout=30  # 设置30秒超时
-            )
-            
-            self.logger.info("API请求成功，正在处理响应...")
-            
-            # 验证响应格式
-            if not hasattr(response, 'choices') or not response.choices:
-                raise ValueError("无效的API响应格式")
-            
-            if not hasattr(response.choices[0], 'message') or not response.choices[0].message:
-                raise ValueError("响应中没有有效内容")
-            
-            result = response.choices[0].message['content'].strip()
-            self.logger.info(f"成功获取响应 (长度: {len(result)} 字符)")
-            return result
-            
-        except Exception as e:
-            self.logger.error(f"API请求错误: {str(e)}")
-            raise
+        max_retries = 5
+        retry_delay = 10
+        
+        for attempt in range(max_retries):
+            try:
+                self.logger.info(f"正在发送API请求 (尝试 {attempt + 1}/{max_retries})...")
+                
+                messages = [
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_prompt}
+                ]
+                
+                # 设置SSL验证选项
+                import ssl
+                ssl_context = ssl.create_default_context()
+                ssl_context.check_hostname = False
+                ssl_context.verify_mode = ssl.CERT_NONE
+                
+                # 配置请求
+                import urllib3
+                urllib3.disable_warnings()
+                openai.verify_ssl_certs = False
+                
+                # 使用openai库调用API
+                response = openai.ChatCompletion.create(
+                    model=self.model_name,
+                    messages=messages,
+                    temperature=self.temperature,
+                    max_tokens=self.model_config['max_output_tokens'],  # 设置最大输出token数
+                    request_timeout=30,  # 设置30秒超时
+                    headers={
+                        "User-Agent": "Mozilla/5.0",
+                        "Connection": "keep-alive"
+                    }
+                )
+                
+                self.logger.info("API请求成功，正在处理响应...")
+                
+                # 验证响应格式
+                if not hasattr(response, 'choices') or not response.choices:
+                    raise ValueError("无效的API响应格式")
+                
+                if not hasattr(response.choices[0], 'message') or not response.choices[0].message:
+                    raise ValueError("响应中没有有效内容")
+                
+                result = response.choices[0].message['content'].strip()
+                
+                # 验证响应内容
+                if not result:
+                    raise ValueError("响应内容为空")
+                
+                self.logger.info(f"成功获取响应 (长度: {len(result)} 字符)")
+                return result
+                
+            except Exception as e:
+                self.logger.error(f"API请求错误: {str(e)}")
+                if attempt < max_retries - 1:
+                    self.logger.error(f"API调用失败 (尝试 {attempt + 1}/{max_retries}): {str(e)}")
+                    self.logger.info(f"等待 {retry_delay} 秒后重试...")
+                    time.sleep(retry_delay)
+                else:
+                    raise Exception(f"API调用失败，已达到最大重试次数: {str(e)}")
 
     def _initial_translation(self, text: str, source_lang: str, target_lang: str) -> str:
         """初始翻译，保留专有名词
@@ -505,7 +538,7 @@ class ReflectiveTranslator:
         return cost
 
     def _split_text(self, text: str) -> List[str]:
-        """将文本分割成适合模型处理的片段
+        """将文本分割成适合模型处理的片段，使用更智能的语义分割策略
         
         Args:
             text (str): 要分割的文本
@@ -513,88 +546,66 @@ class ReflectiveTranslator:
         Returns:
             List[str]: 文本片段列表
         """
-        # 定义分割标记
-        splitters = {
-            'hard': ['\n\n', '\r\n\r\n'],  # 强分割点（段落）
-            'soft': ['. ', '。', '！', '? ', '？', '…']  # 软分割点（句子）
-        }
+        if not text:
+            return []
+            
+        # 首先保护特殊内容
+        processed_text, placeholders = self._preserve_special_content(text)
         
-        # 估算不同语言字符的token数
-        def estimate_tokens(text: str) -> int:
-            tokens = 0
-            for char in text:
-                if '\u4e00' <= char <= '\u9fff':  # 中文字符
-                    tokens += 2
-                elif '\u3040' <= char <= '\u30ff':  # 日文假名
-                    tokens += 2
-                elif '\uac00' <= char <= '\ud7af':  # 韩文
-                    tokens += 2
-                elif char.isspace():  # 空白字符
-                    tokens += 0.1
-                else:  # 其他字符（英文等）
-                    tokens += 0.5
-            return int(tokens)
+        # 获取最优块大小
+        optimal_chunk_size = self._get_optimal_chunk_size(processed_text)
         
-        # 预处理文本，规范化换行符
-        text = text.replace('\r\n', '\n')
+        # 分割文本
+        chunks = []
+        current_chunk = []
+        current_size = 0
         
-        # 首先按段落分割
-        paragraphs = []
-        for splitter in splitters['hard']:
-            if splitter in text:
-                paragraphs.extend(filter(None, text.split(splitter)))
-                break
-        if not paragraphs:
-            paragraphs = [text]
-        
-        # 进一步处理大段落
-        segments = []
-        current_segment = []
-        current_tokens = 0
-        max_tokens = self.max_tokens_per_chunk // 3  # 预留空间给翻译结果
+        paragraphs = re.split(r'\n\s*\n', processed_text)
         
         for para in paragraphs:
-            para_tokens = estimate_tokens(para)
+            para_size = self._estimate_tokens(para)
             
-            if para_tokens > max_tokens:
-                # 如果单个段落超过限制，按句子分割
-                sentences = []
-                last_pos = 0
-                for i in range(len(para)):
-                    for splitter in splitters['soft']:
-                        if para[i:i + len(splitter)] == splitter:
-                            sentences.append(para[last_pos:i + len(splitter)])
-                            last_pos = i + len(splitter)
-                            break
-                if last_pos < len(para):
-                    sentences.append(para[last_pos:])
+            if para_size > optimal_chunk_size:
+                # 如果段落太长，按句子分割
+                sentences = re.split(r'([。！？.!?])', para)
+                current_sentence = ''
                 
-                # 处理分割后的句子
-                for sentence in sentences:
-                    sent_tokens = estimate_tokens(sentence)
-                    if current_tokens + sent_tokens > max_tokens and current_segment:
-                        segments.append('\n'.join(current_segment))
-                        current_segment = []
-                        current_tokens = 0
-                    current_segment.append(sentence)
-                    current_tokens += sent_tokens
+                for i in range(0, len(sentences), 2):
+                    sentence = sentences[i]
+                    if i + 1 < len(sentences):
+                        sentence += sentences[i + 1]  # 添加分隔符
+                        
+                    sentence_size = self._estimate_tokens(sentence)
+                    
+                    if current_size + sentence_size > optimal_chunk_size and current_chunk:
+                        # 保存当前块
+                        chunks.append('\n'.join(current_chunk))
+                        current_chunk = []
+                        current_size = 0
+                    
+                    current_chunk.append(sentence)
+                    current_size += sentence_size
             else:
-                # 如果当前段落会导致超出限制，保存当前片段并开始新片段
-                if current_tokens + para_tokens > max_tokens and current_segment:
-                    segments.append('\n'.join(current_segment))
-                    current_segment = []
-                    current_tokens = 0
-                current_segment.append(para)
-                current_tokens += para_tokens
+                # 如果当前段落加入会超过大小限制，保存当前块
+                if current_size + para_size > optimal_chunk_size and current_chunk:
+                    chunks.append('\n'.join(current_chunk))
+                    current_chunk = []
+                    current_size = 0
+                
+                current_chunk.append(para)
+                current_size += para_size
         
-        # 保存最后一个片段
-        if current_segment:
-            segments.append('\n'.join(current_segment))
+        # 保存最后一个块
+        if current_chunk:
+            chunks.append('\n'.join(current_chunk))
         
-        return segments
+        # 还原每个块中的特殊内容
+        restored_chunks = [self._restore_special_content(chunk, placeholders) for chunk in chunks]
+        
+        return restored_chunks
 
     def _merge_translations(self, translations: List[str], overlap_tokens: int) -> str:
-        """合并翻译片段，处理重叠部分
+        """合并翻译片段，使用更智能的合并策略
         
         Args:
             translations (List[str]): 翻译片段列表
@@ -617,21 +628,64 @@ class ReflectiveTranslator:
             overlap = self._find_longest_overlap(merged, current)
             
             if overlap:
-                # 使用重叠部分合并文本
-                merged = merged[:-len(overlap)] + current
+                # 使用重叠部分合并文本，并确保在合适的位置合并
+                overlap_start = merged.rfind(overlap)
+                if overlap_start != -1:
+                    # 检查重叠部分的上下文，确保合并点合适
+                    context_before = merged[max(0, overlap_start-50):overlap_start]
+                    context_after = current[len(overlap):min(len(current), len(overlap)+50)]
+                    
+                    # 如果上下文显示这是一个好的合并点
+                    if self._is_good_merge_point(context_before, context_after):
+                        merged = merged[:overlap_start] + current
+                    else:
+                        # 尝试在句子边界合并
+                        last_sentence_end = self._find_last_sentence_end(merged)
+                        next_sentence_start = self._find_next_sentence_start(current)
+                        if last_sentence_end > 0 and next_sentence_start > 0:
+                            merged = merged[:last_sentence_end] + '\n' + current[next_sentence_start:]
+                        else:
+                            merged += '\n' + current
+                else:
+                    merged += '\n' + current
             else:
-                # 如果没有找到重叠，检查是否有断句点
+                # 如果没有找到重叠，尝试在句子边界合并
                 last_sentence_end = self._find_last_sentence_end(merged)
                 next_sentence_start = self._find_next_sentence_start(current)
                 
                 if last_sentence_end > 0 and next_sentence_start > 0:
-                    # 在句子边界合并
                     merged = merged[:last_sentence_end] + '\n' + current[next_sentence_start:]
                 else:
-                    # 如果没有找到合适的断句点，添加换行符
                     merged += '\n' + current
         
         return merged
+
+    def _is_good_merge_point(self, context_before: str, context_after: str) -> bool:
+        """判断是否是好的合并点
+        
+        Args:
+            context_before (str): 合并点前的上下文
+            context_after (str): 合并点后的上下文
+            
+        Returns:
+            bool: 是否是好的合并点
+        """
+        # 定义不应该分开的模式
+        bad_patterns = [
+            r'\b[A-Z][a-z]+\s+[A-Z][a-z]+\b',  # 人名
+            r'\b[A-Z]+\b',  # 缩写词
+            r'\b\d+\.\d+\b',  # 小数
+            r'\([^)]*$',  # 未闭合的括号
+            r'"[^"]*$',  # 未闭合的引号
+            r'\[[^\]]*$',  # 未闭合的方括号
+        ]
+        
+        # 检查是否有不应该分开的模式
+        for pattern in bad_patterns:
+            if re.search(pattern, context_before) or re.search(f'^[^{pattern[-1]}]*{pattern[-1]}', context_after):
+                return False
+        
+        return True
 
     def _find_longest_overlap(self, text1: str, text2: str, min_length: int = 10) -> str:
         """找到两个文本中最长的重叠部分
@@ -872,20 +926,41 @@ class ReflectiveTranslator:
         content_blocks = []
         
         try:
-            doc = fitz.open(file_path)
-            total_pages = len(doc)
-            logging.info(f"PDF共有 {total_pages} 页")
-            
             # 创建图片保存目录
-            pdf_name = os.path.splitext(os.path.basename(file_path))[0]
-            image_dir = os.path.join(os.path.dirname(file_path), f"{pdf_name}_images")
-            os.makedirs(image_dir, exist_ok=True)
+            images_dir = os.path.join(os.path.dirname(file_path), 'images')
+            os.makedirs(images_dir, exist_ok=True)
             
-            for page_num in range(total_pages):
+            # 打开PDF文件
+            doc = fitz.open(file_path)
+            
+            # 遍历每一页
+            for page_num in range(len(doc)):
                 page = doc[page_num]
                 
-                # 存储上一个块的信息,用于判断连续性
-                prev_block = None
+                # 提取文本
+                text_blocks = page.get_text("dict", sort=True)["blocks"]
+                current_block_text = []
+                current_block_rect = None
+                
+                for b in text_blocks:
+                    if "lines" in b:
+                        block_text = []
+                        for line in b["lines"]:
+                            line_text = []
+                            for span in line["spans"]:
+                                text = span["text"].strip()
+                                if text:
+                                    line_text.append(text)
+                            if line_text:
+                                block_text.append(" ".join(line_text))
+                        if block_text:
+                            text_content = " ".join(block_text)
+                            content_blocks.append({
+                                "type": "text",
+                                "content": text_content,
+                                "rect": b["bbox"],
+                                "page": page_num + 1
+                            })
                 
                 # 提取图片
                 try:
@@ -899,7 +974,7 @@ class ReflectiveTranslator:
                                 
                                 # 保存图片
                                 image_filename = f"image_p{page_num + 1}_{img_index + 1}.{image_ext}"
-                                image_path = os.path.join(image_dir, image_filename)
+                                image_path = os.path.join(images_dir, image_filename)
                                 
                                 with open(image_path, "wb") as f:
                                     f.write(image_bytes)
@@ -928,27 +1003,7 @@ class ReflectiveTranslator:
                 except Exception as e:
                     logging.warning(f"获取页面图片列表时出错: {str(e)}")
                 
-                # 提取文本
-                try:
-                    blocks = page.get_text("dict")["blocks"]
-                    for b in blocks:
-                        if "lines" in b:
-                            for line in b["lines"]:
-                                for span in line["spans"]:
-                                    text = span["text"].strip()
-                                    if not text:
-                                        continue
-                                    
-                                    content_blocks.append({
-                                        "type": "text",
-                                        "content": text,
-                                        "rect": b["bbox"],
-                                        "page": page_num + 1
-                                    })
-                except Exception as e:
-                    logging.warning(f"提取文本时出错: {str(e)}")
-                
-                logging.info(f"已处理第 {page_num + 1}/{total_pages} 页")
+                logging.info(f"已处理第 {page_num + 1}/{len(doc)} 页")
             
             doc.close()
             return content_blocks
@@ -1007,9 +1062,6 @@ class ReflectiveTranslator:
         """
         formatted_text = []
         current_page = None
-        
-        # 获取输出目录
-        output_dir = os.path.dirname(file_path)
         
         for page in layout_info:
             page_num = page['page']
@@ -1215,79 +1267,16 @@ class ReflectiveTranslator:
             output_dir = os.path.dirname(output_path)
             
             for block in translations:
-                if block['type'] == 'text':
-                    content = block.get('translation', block.get('content', ''))
-                    format_info = block.get('format', {})
-                    
-                    # 处理标题
-                    if format_info.get('heading_level'):
-                        level = format_info['heading_level']
-                        markdown_content.append(f"\n{'#' * level} {content.strip()}\n")
-                    
-                    # 处理列表
-                    elif format_info.get('is_list'):
-                        marker = format_info['list_marker']
-                        if marker == 'bullet':
-                            markdown_content.append(f"\n- {content}\n")
-                        elif marker == 'numbered':
-                            # 保持原有的编号
-                            number_match = re.match(r'(\d+)[.)]', content)
-                            if number_match:
-                                number = number_match.group(1)
-                                content = re.sub(r'^\d+[.)] ', '', content)
-                                markdown_content.append(f"\n{number}. {content}\n")
-                            else:
-                                markdown_content.append(f"\n1. {content}\n")
-                        elif marker == 'alpha':
-                            markdown_content.append(f"\n* {content}\n")
-                        
-                    # 处理普通段落
-                    else:
-                        # 添加样式标记
-                        if format_info.get('style', {}).get('bold'):
-                            content = f"**{content}**"
-                        if format_info.get('style', {}).get('italic'):
-                            content = f"*{content}*"
-                        markdown_content.append(f"\n{content}\n")
-                    
-                elif block['type'] == 'image':
-                    # 处理图片
-                    if 'path' in block:
-                        # 确保使用相对路径
-                        img_path = os.path.relpath(block['path'], output_dir)
-                        img_path = img_path.replace('\\', '/')
-                        
-                        # 获取图片尺寸
-                        width = block.get('width', 800)
-                        height = block.get('height')
-                        
-                        # 计算合适的显示尺寸
-                        max_width = 800
-                        if width and height:
-                            aspect_ratio = width / height
-                            display_width = min(width, max_width)
-                            display_height = int(display_width / aspect_ratio)
-                            
-                            # 添加图片标记
-                            markdown_content.append(
-                                f"\n<div align='center'>\n"
-                                f"<img src='{img_path}' width='{display_width}' height='{display_height}' "
-                                f"style='max-width: 100%; height: auto;'>\n"
-                                f"</div>\n"
-                            )
-                        else:
-                            # 如果没有尺寸信息，使用默认宽度
-                            markdown_content.append(
-                                f"\n<div align='center'>\n"
-                                f"<img src='{img_path}' width='{max_width}' "
-                                f"style='max-width: 100%; height: auto;'>\n"
-                                f"</div>\n"
-                            )
+                if not block.get('content'):
+                    continue
                 
-                # 重置列表状态（如果遇到非列表内容）
-                if block['type'] != 'text' or not block.get('format', {}).get('is_list'):
-                    current_list_type = None
-            
+                # 清理文本内容
+                if block.get('type') == 'text':
+                    block['content'] = self._clean_text(block['content'])
+                
+                # 保持图片和表格块不变
+                markdown_content.append(block['content'])
+                
             # 写入文件
             with open(output_path, 'w', encoding='utf-8') as f:
                 f.write('\n'.join(markdown_content))
@@ -1298,319 +1287,186 @@ class ReflectiveTranslator:
             logging.error(f"保存Markdown文件时出错: {str(e)}")
             raise
 
-    def _extract_content_from_pdf(self, pdf_path: str) -> List[Dict]:
-        """从PDF文件中提取内容，包括文本和图片
-
-        Args:
-            pdf_path (str): PDF文件路径
-
-        Returns:
-            List[Dict]: 内容块列表，包含文本和图片信息
-        """
-        content_blocks = []
-        output_dir = os.path.dirname(pdf_path)
+    def _process_table_content(self, table_text: str) -> str:
+        """处理表格内容，保持格式的同时翻译单元格文本
         
+        Args:
+            table_text (str): 原始表格文本
+            
+        Returns:
+            str: 处理后的表格文本
+        """
+        lines = table_text.split('\n')
+        processed_lines = []
+        
+        # 识别表头分隔行
+        header_separator_pattern = r'\|[\s\-:]+\|'
+        
+        for i, line in enumerate(lines):
+            # 跳过空行
+            if not line.strip():
+                processed_lines.append(line)
+                continue
+                
+            # 如果是表头分隔行，直接保留
+            if re.match(header_separator_pattern, line.strip()):
+                processed_lines.append(line)
+                continue
+            
+            # 处理表格内容行
+            cells = line.split('|')
+            processed_cells = []
+            
+            for cell in cells:
+                cell = cell.strip()
+                if not cell:  # 跳过空单元格
+                    processed_cells.append('')
+                    continue
+                    
+                # 检查单元格是否包含代码
+                if self._contains_code(cell):
+                    # 如果包含代码，保持原样
+                    processed_cells.append(cell)
+                else:
+                    # 翻译普通文本内容
+                    translated_cell = self._translate_text(cell, self.source_lang, self.target_lang)
+                    processed_cells.append(translated_cell)
+            
+            # 重建表格行，保持原有的格式
+            processed_line = '|' + '|'.join(f' {cell} ' for cell in processed_cells) + '|'
+            processed_lines.append(processed_line)
+        
+        return '\n'.join(processed_lines)
+    
+    def _contains_code(self, text: str) -> bool:
+        """检查文本是否包含代码
+        
+        Args:
+            text (str): 要检查的文本
+            
+        Returns:
+            bool: 是否包含代码
+        """
+        # 代码相关的模式
+        code_patterns = [
+            r'`[^`]+`',          # 行内代码
+            r'```[\s\S]*?```',   # 代码块
+            r'~~~[\s\S]*?~~~',   # 另一种代码块标记
+            r'<code>.*?</code>', # HTML代码标签
+            r'\$.*?\$',          # 数学公式
+            r'\\\(.*?\\\)',      # LaTeX行内公式
+            r'\\\[.*?\\\]'       # LaTeX块级公式
+        ]
+        
+        return any(re.search(pattern, text, re.DOTALL) for pattern in code_patterns)
+
+    def _detect_content_type(self, text: str) -> str:
+        """
+        检测文本内容的类型
+        返回: 'code', 'table', 'text'
+        """
+        # 检测代码块
+        code_markers = ['```', '~~~', 'def ', 'class ', 'import ', 'from ']
+        if any(marker in text for marker in code_markers):
+            return 'code'
+        
+        # 检测表格
+        if '|' in text and any(line.strip().startswith('|') for line in text.split('\n')):
+            return 'table'
+            
+        return 'text'
+        
+    def _estimate_text_complexity(self, text: str) -> float:
+        """
+        估算文本的复杂度
+        返回: 0.5-1.5之间的复杂度系数
+        """
+        complexity = 1.0
+        
+        # 1. 句子长度
+        sentences = [s.strip() for s in text.split('.') if s.strip()]
+        avg_sentence_length = sum(len(s) for s in sentences) / max(len(sentences), 1)
+        if avg_sentence_length > 100:
+            complexity += 0.2
+        elif avg_sentence_length < 30:
+            complexity -= 0.1
+            
+        # 2. 特殊字符密度
+        special_chars = set('{}[]()<>@#$%^&*+=\\|~`')
+        special_char_ratio = len([c for c in text if c in special_chars]) / len(text)
+        complexity += special_char_ratio * 2
+        
+        # 3. 数字和符号密度
+        symbol_ratio = len([c for c in text if not c.isalnum()]) / len(text)
+        complexity += symbol_ratio
+        
+        # 4. 中文字符比例
+        chinese_ratio = len([c for c in text if '\u4e00' <= c <= '\u9fff']) / len(text)
+        complexity += chinese_ratio * 0.3
+        
+        # 限制复杂度范围
+        return max(0.5, min(1.5, complexity))
+        
+    def _get_optimal_chunk_size(self, text: str) -> int:
+        """
+        根据内容类型和复杂度确定最优块大小
+        """
+        content_type = self._detect_content_type(text)
+        complexity = self._estimate_text_complexity(text)
+        
+        # 基础块大小 - 使用更大的基础大小
+        base_size = self.max_tokens_per_chunk // 2  # 预留一半空间给翻译结果
+        
+        # 根据内容类型调整
+        type_multiplier = {
+            'code': 0.8,  # 代码块需要保持完整，但通常较短
+            'table': 0.7,  # 表格需要完整处理
+            'text': 1.0   # 普通文本使用标准大小
+        }
+        
+        # 计算最终大小
+        optimal_size = int(base_size * type_multiplier[content_type] / complexity)
+        
+        # 确保不超过模型限制，但保持足够大的大小
+        return min(max(optimal_size, 1000), self.model_config['max_tokens'] - 1000)  # 留出1000个token的缓冲
+
+    def _optimize_overlap(self, prev_text: str, next_text: str) -> int:
+        """
+        优化两个文本块之间的重叠大小
+        """
+        # 基础重叠大小
+        base_overlap = self.overlap_tokens
+        
+        # 检测内容类型
+        prev_type = self._detect_content_type(prev_text)
+        next_type = self._detect_content_type(next_text)
+        
+        # 如果两边都是代码或表格，增加重叠
+        if prev_type in ['code', 'table'] or next_type in ['code', 'table']:
+            base_overlap = int(base_overlap * 1.5)
+            
+        # 根据复杂度调整重叠
+        prev_complexity = self._estimate_text_complexity(prev_text)
+        next_complexity = self._estimate_text_complexity(next_text)
+        avg_complexity = (prev_complexity + next_complexity) / 2
+        
+        # 复杂度越高，重叠越大
+        overlap = int(base_overlap * avg_complexity)
+        
+        return min(overlap, self.model_config['max_tokens'] // 4)  # 限制最大重叠大小
+
+    def _estimate_tokens(self, text: str) -> int:
+        """
+        估算文本的token数量
+        """
+        # 使用tiktoken估算token数量
         try:
-            self.doc = fitz.open(pdf_path)
-            
-            # 存储上一个块的信息,用于判断连续性
-            prev_block = None
-            
-            for page_num in range(len(self.doc)):
-                page = self.doc[page_num]
-                
-                try:
-                    # 提取图片
-                    images = page.get_images()
-                    for img_num, img in enumerate(images):
-                        try:
-                            xref = img[0]
-                            base_image = self.doc.extract_image(xref)
-                            if not base_image:
-                                logging.warning(f"无法提取图片: 页码 {page_num + 1}, 索引 {img_num}")
-                                continue
-                                
-                            image_bytes = base_image["image"]
-                            
-                            # 保存图片
-                            img_filename = f"image_p{page_num+1}_{img_num+1}.{base_image['ext']}"
-                            img_dir = os.path.join(os.path.dirname(pdf_path), "images")
-                            os.makedirs(img_dir, exist_ok=True)
-                            img_path = os.path.join(img_dir, img_filename)
-                            
-                            with open(img_path, "wb") as img_file:
-                                img_file.write(image_bytes)
-                            
-                            content_blocks.append({
-                                'type': 'image',
-                                'content': f"![{img_filename}](images/{img_filename})",
-                                'page': page_num + 1,
-                                'position': len(content_blocks)
-                            })
-                        except Exception as e:
-                            logging.error(f"处理图片时出错: 页码 {page_num + 1}, 索引 {img_num}, 错误: {str(e)}")
-                            continue
-                    
-                    # 提取文本块
-                    try:
-                        text_blocks = page.get_text("dict", sort=True)["blocks"]
-                        for b in text_blocks:
-                            if "lines" not in b:
-                                continue
-                                
-                            # 合并块中的所有行
-                            text_parts = []
-                            style_info = {
-                                'font_size': 0,
-                                'font': '',
-                                'color': 0,
-                                'flags': 0
-                            }
-                            for line in b["lines"]:
-                                for span in line["spans"]:
-                                    text = span["text"].strip()
-                                    if text:
-                                        text_parts.append({
-                                            'text': text,
-                                            'font': span.get("font", ""),
-                                            'size': span.get("size", 12),
-                                            'flags': span.get("flags", 0)
-                                        })
-                                    
-                                    # 更新样式信息
-                                    if 'size' in span:
-                                        style_info['font_size'] = max(style_info['font_size'], span['size'])
-                                    if 'font' in span:
-                                        style_info['font'] = span['font']
-                                    if 'color' in span:
-                                        style_info['color'] = span['color']
-                                    if 'flags' in span:
-                                        style_info['flags'] |= span['flags']
-                            
-                            if text_parts:
-                                block_text = ' '.join(line["text"] for line in text_parts)
-                                content_blocks.append({
-                                    "type": "text",
-                                    "content": block_text,
-                                    "rect": b["bbox"],
-                                    "page": page_num + 1,
-                                    "style": style_info
-                                })
-                                
-                                # 分析文本块特征
-                                block_analysis = self._analyze_block({
-                                    'bbox': b["bbox"],
-                                    'lines': b["lines"],
-                                    'style': style_info
-                                }, page.rect.height)
-                                
-                                # 更新内容块的特征信息
-                                content_blocks[-1].update(block_analysis)
-                                
-                    except Exception as e:
-                        logging.error(f"处理文本块时出错: {str(e)}")
-                        continue
-                    
-                    # 提取表格
-                    try:
-                        tables = page.find_tables()
-                        if tables and tables.tables:
-                            for table_num, table in enumerate(tables):
-                                try:
-                                    md_table = self._convert_table_to_markdown(table)
-                                    content_blocks.append({
-                                        'type': 'table',
-                                        'content': md_table,
-                                        'page': page_num + 1,
-                                        'position': len(content_blocks)
-                                    })
-                                except Exception as e:
-                                    logging.error(f"处理表格时出错: 页码 {page_num + 1}, 表格 {table_num}, 错误: {str(e)}")
-                                    continue
-                    except Exception as e:
-                        logging.error(f"提取表格时出错: 页码 {page_num + 1}, 错误: {str(e)}")
-                        continue
-                        
-                except Exception as e:
-                    logging.error(f"处理页面时出错: 页码 {page_num + 1}, 错误: {str(e)}")
-                    continue
-                    
-            # 最终的块处理和排序
-            content_blocks = self._post_process_blocks(content_blocks)
-            return content_blocks
-            
+            encoder = tiktoken.encoding_for_model(self.model_name)
+            return len(encoder.encode(text))
         except Exception as e:
-            logging.error(f"处理PDF文件时出错: {str(e)}")
-            raise
-        finally:
-            if hasattr(self, 'doc'):
-                self.doc.close()
-                
-    def _blocks_to_markdown(self, blocks: List[Dict]) -> str:
-        """将翻译后的块转换为完整的Markdown文档
-        
-        Args:
-            blocks: 翻译后的内容块列表
-            
-        Returns:
-            str: Markdown格式的文档
-        """
-        md_lines = []
-        current_page = 1
-        
-        for block in blocks:
-            # 添加分页符
-            if block.get('page', 1) > current_page:
-                current_page = block['page']
-                if md_lines:  # 不是第一页时添加分隔符
-                    md_lines.extend(["\n\n---\n\n"])
-            
-            content = block['translation']
-            
-            if block['type'] == 'text':
-                style = block.get('style', {})
-                
-                # 处理标题
-                if style.get('heading_level'):
-                    level = style['heading_level']
-                    md_lines.append(f"\n{'#' * level} {content.strip()}\n")
-                    
-                # 处理列表
-                elif style.get('is_list'):
-                    marker = style['list_marker']
-                    if marker == 'bullet':
-                        md_lines.append(f"\n- {content}\n")
-                    elif marker == 'numbered':
-                        # 保持原有的编号
-                        number_match = re.match(r'(\d+)[.)]', content)
-                        if number_match:
-                            number = number_match.group(1)
-                            content = re.sub(r'^\d+[.)] ', '', content)
-                            md_lines.append(f"\n{number}. {content}\n")
-                        else:
-                            md_lines.append(f"\n1. {content}\n")
-                    elif marker == 'alpha':
-                        md_lines.append(f"\n* {content}\n")
-                        
-                # 处理普通段落
-                else:
-                    # 添加样式标记
-                    if style.get('style', {}).get('bold'):
-                        content = f"**{content}**"
-                    if style.get('style', {}).get('italic'):
-                        content = f"*{content}*"
-                    md_lines.append(f"\n{content}\n")
-                    
-            # 处理图片
-            elif block['type'] == 'image':
-                md_lines.append(f"\n{content}\n")
-                
-            # 处理表格
-            elif block['type'] == 'table':
-                md_lines.append(f"\n{content}\n")
-                
-        return '\n'.join(md_lines)
-
-    def _call_openai(self, system_prompt: str, user_prompt: str) -> str:
-        """调用 GPTsAPI，包含重试逻辑
-        
-        Args:
-            system_prompt (str): 系统提示
-            user_prompt (str): 用户提示
-            
-        Returns:
-            str: API响应的文本内容
-        """
-        max_retries = 5
-        retry_delay = 10  # 减少初始重试延迟到10秒
-        
-        for attempt in range(max_retries):
-            try:
-                self.logger.info(f"正在发送API请求 (尝试 {attempt + 1}/{max_retries})...")
-                
-                messages = [
-                    {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": user_prompt}
-                ]
-                
-                # 设置SSL验证选项
-                import ssl
-                ssl_context = ssl.create_default_context()
-                ssl_context.check_hostname = False
-                ssl_context.verify_mode = ssl.CERT_NONE
-                
-                # 配置请求
-                import urllib3
-                urllib3.disable_warnings()
-                openai.verify_ssl_certs = False
-                
-                # 使用openai库调用API
-                response = openai.ChatCompletion.create(
-                    model=self.model_name,
-                    messages=messages,
-                    temperature=self.temperature,
-                    request_timeout=30,  # 设置30秒超时
-                    headers={
-                        "User-Agent": "Mozilla/5.0",
-                        "Connection": "keep-alive"
-                    }
-                )
-                
-                self.logger.info("API请求成功，正在处理响应...")
-                
-                # 验证响应格式
-                if not hasattr(response, 'choices') or not response.choices:
-                    raise ValueError("无效的API响应格式")
-                
-                if not hasattr(response.choices[0], 'message') or not response.choices[0].message:
-                    raise ValueError("响应中没有有效内容")
-                
-                result = response.choices[0].message['content'].strip()
-                self.logger.info(f"成功获取响应 (长度: {len(result)} 字符)")
-                return result
-                
-            except Exception as e:
-                error_msg = str(e).lower()
-                self.logger.error(f"API请求错误: {error_msg}")
-                
-                # 处理SSL错误
-                if "eof occurred" in error_msg or "ssl" in error_msg:
-                    if attempt < max_retries - 1:
-                        wait_time = retry_delay
-                        self.logger.warning(f"SSL连接问题，等待 {wait_time} 秒后重试...")
-                        time.sleep(wait_time)
-                        continue
-                
-                # 处理常见错误类型
-                elif any(err in error_msg for err in ["rate limit", "too many requests"]):
-                    wait_time = retry_delay * (2 ** attempt)  # 指数退避
-                    self.logger.warning(f"API速率限制，等待 {wait_time} 秒后重试...")
-                    time.sleep(wait_time)
-                    continue
-                    
-                elif "timeout" in error_msg or "connection" in error_msg:
-                    if attempt < max_retries - 1:
-                        wait_time = retry_delay
-                        self.logger.warning(f"API连接问题，等待 {wait_time} 秒后重试...")
-                        time.sleep(wait_time)
-                        continue
-                
-                elif "server error" in error_msg or "502" in error_msg or "503" in error_msg:
-                    if attempt < max_retries - 1:
-                        wait_time = retry_delay
-                        self.logger.warning(f"服务器错误，等待 {wait_time} 秒后重试...")
-                        time.sleep(wait_time)
-                        continue
-                        
-                # 处理其他错误
-                self.logger.error(f"API调用失败 (尝试 {attempt + 1}/{max_retries}): {str(e)}")
-                if attempt < max_retries - 1:
-                    wait_time = retry_delay
-                    self.logger.info(f"等待 {wait_time} 秒后重试...")
-                    time.sleep(wait_time)
-                    continue
-                else:
-                    raise Exception(f"API调用失败，已达到最大重试次数: {str(e)}")
+            logging.warning(f"无法使用tiktoken计算token: {str(e)}")
+            # 使用简单的估算方法作为后备
+            return len(text) if any('\u4e00' <= c <= '\u9fff' for c in text) else len(text) // 4
 
     def _clean_text(self, text: str) -> str:
         """清理文本，移除不必要的空白字符和格式
@@ -1811,11 +1667,11 @@ class ReflectiveTranslator:
             raise FileNotFoundError(f"找不到文件: {file_path}")
             
         try:
-            print(f"开始翻译文件: {os.path.basename(file_path)}")
-            print(f"源语言: {source_lang}")
-            print(f"目标语言: {target_lang}")
-            print(f"使用模型: {self.model_name}\n")
-            
+            self.logger.info(f"开始翻译文件: {os.path.basename(file_path)}")
+            self.logger.info(f"源语言: {source_lang}")
+            self.logger.info(f"目标语言: {target_lang}")
+            self.logger.info(f"使用模型: {self.model_name}")
+
             # 获取文件扩展名
             file_ext = os.path.splitext(file_path)[1].lower()
             
@@ -1863,15 +1719,14 @@ class ReflectiveTranslator:
             with open(output_path, 'w', encoding='utf-8') as f:
                 f.write(content)
                 
-            print(f"\n翻译完成！输出文件: {output_path}")
+            self.logger.info(f"\n翻译完成！输出文件: {output_path}")
             return output_path
             
         except Exception as e:
-            logging.error(f"翻译失败: {str(e)}")
-            print(f"错误: {str(e)}")
+            self.logger.error(f"翻译失败: {str(e)}")
             raise
 
-    def _extract_pdf_content(self, pdf_path: str) -> List[Dict[str, Any]]:
+    def _extract_pdf_content(self, pdf_path: str) -> List[Dict]:
         """从PDF提取内容,包括文本、图片、表格等
         
         Args:
@@ -1895,15 +1750,71 @@ class ReflectiveTranslator:
                 page = doc[page_num]
                 
                 # 提取文本
-                text_blocks = page.get_text("blocks")
-                for block in text_blocks:
-                    if block[6] == 0:  # 文本块
-                        content_blocks.append({
-                            'type': 'text',
-                            'content': block[4],
-                            'rect': block[:4],
-                            'page': page_num + 1
-                        })
+                text_blocks = page.get_text("dict", sort=True)["blocks"]
+                page_text_blocks = []
+                
+                for b in text_blocks:
+                    if "lines" in b:
+                        block_text = []
+                        for line in b["lines"]:
+                            line_text = []
+                            for span in line["spans"]:
+                                text = span["text"].strip()
+                                if text:
+                                    line_text.append(text)
+                            if line_text:
+                                block_text.append(" ".join(line_text))
+                        if block_text:
+                            text_content = " ".join(block_text)
+                            page_text_blocks.append({
+                                "type": "text",
+                                "content": text_content,
+                                "rect": b["bbox"],
+                                "page": page_num + 1
+                            })
+                
+                # 合并同一页面中的相邻文本块
+                if page_text_blocks:
+                    # 按垂直位置排序
+                    page_text_blocks.sort(key=lambda x: x["rect"][1])
+                    
+                    # 初始化合并后的块
+                    merged_blocks = []
+                    current_block = page_text_blocks[0]
+                    merged_text = [current_block["content"]]
+                    
+                    # 遍历剩余的块
+                    for next_block in page_text_blocks[1:]:
+                        # 如果两个块在垂直方向上足够接近（比如小于行高的1.5倍）
+                        if abs(next_block["rect"][1] - current_block["rect"][3]) < 20:  # 可以根据实际情况调整这个阈值
+                            merged_text.append(next_block["content"])
+                        else:
+                            # 保存当前合并的块
+                            merged_blocks.append({
+                                "type": "text",
+                                "content": " ".join(merged_text),
+                                "rect": [
+                                    current_block["rect"][0],
+                                    current_block["rect"][1],
+                                    next_block["rect"][2],
+                                    next_block["rect"][3]
+                                ],
+                                "page": current_block["page"]
+                            })
+                            # 开始新的块
+                            current_block = next_block
+                            merged_text = [current_block["content"]]
+                    
+                    # 添加最后一个合并的块
+                    merged_blocks.append({
+                        "type": "text",
+                        "content": " ".join(merged_text),
+                        "rect": current_block["rect"],
+                        "page": current_block["page"]
+                    })
+                    
+                    # 将合并后的块添加到内容列表
+                    content_blocks.extend(merged_blocks)
                 
                 # 提取图片
                 images = page.get_images()
@@ -1926,13 +1837,15 @@ class ReflectiveTranslator:
                                 'page': page_num + 1
                             })
                     except Exception as e:
-                        logging.error(f"处理图片时出错: {str(e)}")
+                        self.logger.error(f"处理图片时出错: {str(e)}")
             
             # 按页码和位置排序
             content_blocks.sort(key=lambda x: (x['page'], x['rect'][1] if 'rect' in x else 0))
             
+            return content_blocks
+            
         except Exception as e:
-            logging.error(f"提取PDF内容时出错: {str(e)}")
+            self.logger.error(f"提取PDF内容时出错: {str(e)}")
             raise
         finally:
             if 'doc' in locals():
@@ -1953,7 +1866,7 @@ class ReflectiveTranslator:
         current_page = 1
         
         for block in blocks:
-            # 添加页码分隔符
+            # 添加分页符
             if block['page'] != current_page:
                 current_page = block['page']
                 if markdown_lines:  # 不是第一页时添加分隔符
@@ -1962,15 +1875,293 @@ class ReflectiveTranslator:
             content = block['translation']
             
             if block['type'] == 'text':
-                # 添加翻译后的文本
                 markdown_lines.append(content)
                 markdown_lines.append("\n\n")
             elif block['type'] == 'image':
-                # 添加图片引用
                 markdown_lines.append(block['content'])
                 markdown_lines.append("\n\n")
         
         return "".join(markdown_lines)
+
+    def _call_openai(self, system_prompt: str, user_prompt: str) -> str:
+        """调用 GPTsAPI，包含重试逻辑
+        
+        Args:
+            system_prompt (str): 系统提示
+            user_prompt (str): 用户提示
+            
+        Returns:
+            str: API响应的文本内容
+        """
+        max_retries = 5
+        retry_delay = 10
+        
+        for attempt in range(max_retries):
+            try:
+                self.logger.info(f"正在发送API请求 (尝试 {attempt + 1}/{max_retries})...")
+                
+                messages = [
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_prompt}
+                ]
+                
+                # 设置SSL验证选项
+                import ssl
+                ssl_context = ssl.create_default_context()
+                ssl_context.check_hostname = False
+                ssl_context.verify_mode = ssl.CERT_NONE
+                
+                # 配置请求
+                import urllib3
+                urllib3.disable_warnings()
+                openai.verify_ssl_certs = False
+                
+                # 使用openai库调用API
+                response = openai.ChatCompletion.create(
+                    model=self.model_name,
+                    messages=messages,
+                    temperature=self.temperature,
+                    max_tokens=self.model_config['max_output_tokens'],  # 设置最大输出token数
+                    request_timeout=30,  # 设置30秒超时
+                    headers={
+                        "User-Agent": "Mozilla/5.0",
+                        "Connection": "keep-alive"
+                    }
+                )
+                
+                self.logger.info("API请求成功，正在处理响应...")
+                
+                # 验证响应格式
+                if not hasattr(response, 'choices') or not response.choices:
+                    raise ValueError("无效的API响应格式")
+                
+                if not hasattr(response.choices[0], 'message') or not response.choices[0].message:
+                    raise ValueError("响应中没有有效内容")
+                
+                result = response.choices[0].message['content'].strip()
+                
+                # 验证响应内容
+                if not result:
+                    raise ValueError("响应内容为空")
+                
+                self.logger.info(f"成功获取响应 (长度: {len(result)} 字符)")
+                return result
+                
+            except Exception as e:
+                self.logger.error(f"API请求错误: {str(e)}")
+                if attempt < max_retries - 1:
+                    self.logger.error(f"API调用失败 (尝试 {attempt + 1}/{max_retries}): {str(e)}")
+                    self.logger.info(f"等待 {retry_delay} 秒后重试...")
+                    time.sleep(retry_delay)
+                else:
+                    raise Exception(f"API调用失败，已达到最大重试次数: {str(e)}")
+
+    def _contains_special_content(self, text: str) -> Dict[str, bool]:
+        """检查文本是否包含特殊内容
+        
+        Args:
+            text (str): 要检查的文本
+            
+        Returns:
+            Dict[str, bool]: 包含各种特殊内容的标记
+        """
+        patterns = {
+            'code': [
+                r'```[\s\S]*?```',   # Markdown代码块
+                r'~~~[\s\S]*?~~~',   # 另一种代码块标记
+                r'`[^`]+`',          # 行内代码
+                r'<code>.*?</code>', # HTML代码标签
+                r'(?m)^    .*$',     # 缩进代码块
+                r'(?m)^\t.*$',       # Tab缩进代码块
+            ],
+            'formula': [
+                r'\$\$[\s\S]*?\$\$',  # LaTeX数学公式块
+                r'\$[^$\n]+\$',       # LaTeX行内公式
+                r'\\\[[\s\S]*?\\\]',  # LaTeX显示公式
+                r'\\\([\s\S]*?\\\)',  # LaTeX行内公式
+                r'\\begin\{equation\}[\s\S]*?\\end\{equation\}',  # LaTeX方程环境
+                r'\\begin\{align\*?\}[\s\S]*?\\end\{align\*?\}',  # LaTeX对齐环境
+            ],
+            'table': [
+                r'\|[^\n]*\|',        # Markdown表格行
+                r'\+[-=]+\+',         # ASCII表格边框
+                r'┌[─┬]+┐',           # Unicode表格边框
+                r'^\s*[\|\+][-\+]+[\|\+]\s*$',  # 表格分隔符
+            ],
+            'image': [
+                r'!\[([^\]]*)\]\(([^\)]+)\)',  # Markdown图片
+                r'<img[^>]+>',                  # HTML图片标签
+            ],
+            'diagram': [
+                r'```(?:mermaid|dot|plantuml)[\s\S]*?```',  # Mermaid/Graphviz/PlantUML图表
+                r'```(?:chart|graph)[\s\S]*?```',           # 其他图表格式
+            ]
+        }
+        
+        result = {}
+        for content_type, pattern_list in patterns.items():
+            result[content_type] = any(re.search(pattern, text, re.MULTILINE) for pattern in pattern_list)
+            
+        return result
+
+    def _preserve_special_content(self, text: str) -> Tuple[str, List[Dict[str, Any]]]:
+        """保护特殊内容，用占位符替换它们
+        
+        Args:
+            text (str): 原始文本
+            
+        Returns:
+            Tuple[str, List[Dict[str, Any]]]: 处理后的文本和特殊内容列表
+        """
+        placeholders = []
+        processed_text = text
+        
+        # 定义需要保护的模式
+        patterns = {
+            'code': [
+                (r'```[\s\S]*?```', 'CODE_BLOCK'),
+                (r'~~~[\s\S]*?~~~', 'CODE_BLOCK'),
+                (r'`[^`]+`', 'INLINE_CODE'),
+            ],
+            'formula': [
+                (r'\$\$[\s\S]*?\$\$', 'MATH_BLOCK'),
+                (r'\$[^$\n]+\$', 'INLINE_MATH'),
+                (r'\\\[[\s\S]*?\\\]', 'MATH_DISPLAY'),
+                (r'\\\([\s\S]*?\\\)', 'MATH_INLINE'),
+                (r'\\begin\{equation\}[\s\S]*?\\end\{equation\}', 'EQUATION'),
+                (r'\\begin\{align\*?\}[\s\S]*?\\end\{align\*?\}', 'ALIGN'),
+            ],
+            'table': [
+                (r'(?m)^\|.*\|$[\n\r]*(?:\|[-:]+\|[-:\n\r]+)*', 'TABLE'),
+            ],
+            'image': [
+                (r'!\[([^\]]*)\]\(([^\)]+)\)', 'IMAGE'),
+                (r'<img[^>]+>', 'HTML_IMAGE'),
+            ],
+            'diagram': [
+                (r'```(?:mermaid|dot|plantuml)[\s\S]*?```', 'DIAGRAM'),
+            ]
+        }
+        
+        placeholder_id = 0
+        
+        for content_type, pattern_list in patterns.items():
+            for pattern, tag in pattern_list:
+                matches = list(re.finditer(pattern, processed_text, re.MULTILINE | re.DOTALL))
+                for match in reversed(matches):  # 从后向前处理，避免位置变化
+                    content = match.group(0)
+                    placeholder = f"<{tag}_{placeholder_id}>"
+                    placeholders.append({
+                        'id': placeholder_id,
+                        'type': content_type,
+                        'tag': tag,
+                        'content': content,
+                        'start': match.start(),
+                        'end': match.end()
+                    })
+                    processed_text = processed_text[:match.start()] + placeholder + processed_text[match.end():]
+                    placeholder_id += 1
+        
+        return processed_text, placeholders
+
+    def _restore_special_content(self, text: str, placeholders: List[Dict[str, Any]]) -> str:
+        """还原特殊内容
+        
+        Args:
+            text (str): 包含占位符的文本
+            placeholders (List[Dict[str, Any]]: 特殊内容列表
+            
+        Returns:
+            str: 还原后的文本
+        """
+        restored_text = text
+        
+        # 按ID从大到小排序，避免位置冲突
+        for placeholder in sorted(placeholders, key=lambda x: x['id'], reverse=True):
+            pattern = f"<{placeholder['tag']}_{placeholder['id']}>"
+            content = placeholder['content']
+            
+            # 特殊处理图片标题
+            if placeholder['type'] == 'image' and '![' in content:
+                # 提取图片标题和URL
+                match = re.match(r'!\[(.*?)\]\((.*?)\)', content)
+                if match:
+                    title, url = match.groups()
+                    # 只翻译标题，保持URL不变
+                    if title:
+                        translated_title = self._translate_text(title, self.source_lang, self.target_lang)
+                        content = f'![{translated_title}]({url})'
+            
+            restored_text = restored_text.replace(pattern, content)
+        
+        return restored_text
+
+    def _split_text(self, text: str) -> List[str]:
+        """将文本分割成适合模型处理的片段，使用更智能的语义分割策略
+        
+        Args:
+            text (str): 要分割的文本
+            
+        Returns:
+            List[str]: 文本片段列表
+        """
+        if not text:
+            return []
+            
+        # 首先保护特殊内容
+        processed_text, placeholders = self._preserve_special_content(text)
+        
+        # 获取最优块大小
+        optimal_chunk_size = self._get_optimal_chunk_size(processed_text)
+        
+        # 分割文本
+        chunks = []
+        current_chunk = []
+        current_size = 0
+        
+        paragraphs = re.split(r'\n\s*\n', processed_text)
+        
+        for para in paragraphs:
+            para_size = self._estimate_tokens(para)
+            
+            if para_size > optimal_chunk_size:
+                # 如果段落太长，按句子分割
+                sentences = re.split(r'([。！？.!?])', para)
+                current_sentence = ''
+                
+                for i in range(0, len(sentences), 2):
+                    sentence = sentences[i]
+                    if i + 1 < len(sentences):
+                        sentence += sentences[i + 1]  # 添加分隔符
+                        
+                    sentence_size = self._estimate_tokens(sentence)
+                    
+                    if current_size + sentence_size > optimal_chunk_size and current_chunk:
+                        # 保存当前块
+                        chunks.append('\n'.join(current_chunk))
+                        current_chunk = []
+                        current_size = 0
+                    
+                    current_chunk.append(sentence)
+                    current_size += sentence_size
+            else:
+                # 如果当前段落加入会超过大小限制，保存当前块
+                if current_size + para_size > optimal_chunk_size and current_chunk:
+                    chunks.append('\n'.join(current_chunk))
+                    current_chunk = []
+                    current_size = 0
+                
+                current_chunk.append(para)
+                current_size += para_size
+        
+        # 保存最后一个块
+        if current_chunk:
+            chunks.append('\n'.join(current_chunk))
+        
+        # 还原每个块中的特殊内容
+        restored_chunks = [self._restore_special_content(chunk, placeholders) for chunk in chunks]
+        
+        return restored_chunks
 
 if __name__ == "__main__":
     # 设置命令行参数
@@ -1997,13 +2188,13 @@ if __name__ == "__main__":
         )
 
         # 开始翻译
-        print(f"开始翻译文件: {args.input_file}")
-        print(f"源语言: {args.source_lang}")
-        print(f"目标语言: {args.target_lang}")
-        print(f"使用模型: {args.model}")
+        translator.logger.info(f"开始翻译文件: {args.input_file}")
+        translator.logger.info(f"源语言: {args.source_lang}")
+        translator.logger.info(f"目标语言: {args.target_lang}")
+        translator.logger.info(f"使用模型: {args.model}")
 
         output_file = translator.translate_file(args.input_file)
-        print(f"\n翻译完成！输出文件: {output_file}")
+        translator.logger.info(f"\n翻译完成！输出文件: {output_file}")
 
     except Exception as e:
         print(f"错误: {str(e)}")
